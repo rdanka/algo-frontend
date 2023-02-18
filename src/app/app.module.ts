@@ -7,6 +7,8 @@ import { NavbarComponent } from './common/components/navbar/navbar.component';
 import { LoginComponent } from './common/components/login/login.component';
 import { RegisterComponent } from './common/components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './common/services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
