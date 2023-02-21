@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { finalize, switchMap } from 'rxjs';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 
@@ -11,23 +13,29 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent {
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) { }
+  constructor(private readonly authService: AuthService,
+              private readonly router: Router,
+              private toastr: ToastrService) { }
 
   registerForm = new FormGroup({
     username: new FormControl<string>(''),
-    password: new FormControl<string>(''),
+    password: new FormControl<string>('')
   });
 
   onSubmit() {
-    console.info(this.registerForm.value);
     this.authService.register(this.registerForm.value as User).subscribe({
       next: data => {
         console.log(data);
-        if (data.success) {
-          this.router.navigate(['/login']);
-        }
+        this.router.navigate(['/login']);
+        this.toastr.success('Success✅', 'Successfully registered!', {
+          progressBar: true,
+          positionClass: 'toast-bottom-right'
+        });
       },
-      error: error => console.error(error)
+      error: error => this.toastr.error(error.error.msg, 'Error!', {
+        progressBar: true,
+        positionClass: 'toast-bottom-right'
+      })
     })
   }
 }
