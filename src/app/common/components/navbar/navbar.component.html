@@ -1,7 +1,10 @@
 <nav>
     <h2 class="logo">Algo</h2>
-    <ul>
+    <ul *ngIf="!(isLoggedIn$ | async)">
         <li routerLink="login">Login</li>
         <li routerLink="register">Register</li>
     </ul>
+    <div *ngIf="isLoggedIn$ | async">
+        <button  (click)="onLogout()">Logout</button>
+    </div>
 </nav>
