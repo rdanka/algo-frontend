@@ -11,7 +11,6 @@ import { AuthenticateResponse } from '../models/authenticate-response.model';
 })
 export class AuthService {
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
   constructor(private readonly http: HttpClient) { 
     if (localStorage.getItem('user')) {
       this.loggedIn.next(true);
@@ -19,9 +18,6 @@ export class AuthService {
       this.loggedIn.next(false);
     }
   }
-
-
-    
   
 
   public register(user: User): Observable<RegisterResponse> {
@@ -30,7 +26,7 @@ export class AuthService {
 
   public authenticate(user: User): Observable<AuthenticateResponse> {
     return this.http.post<AuthenticateResponse>(`${environment.baseUrl}/users/login`, user).pipe(
-      finalize(()=> {this.loggedIn.next(true);console.log('asd')})
+      finalize(() => this.loggedIn.next(true))
     );
   }
 
@@ -44,7 +40,7 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  get isLoggedIn() {
+  public get isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 }

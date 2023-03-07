@@ -10,12 +10,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn$: Observable<boolean> = of(false);
-
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    console.log(this.isLoggedIn$.subscribe(data => console.log(data)))
   }
 
   onLogout(): void {

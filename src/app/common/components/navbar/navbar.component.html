@@ -4,7 +4,9 @@
         <li routerLink="login">Login</li>
         <li routerLink="register">Register</li>
     </ul>
-    <div *ngIf="isLoggedIn$ | async">
-        <button  (click)="onLogout()">Logout</button>
-    </div>
+    <ul *ngIf="isLoggedIn$ | async">
+        <li (click)="onLogout()">
+            <span class="profile">Logout</span>
+        </li>
+    </ul>
 </nav>

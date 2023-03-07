@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VisualizationComponent } from './visualization/visualization.component';
-
-
+import { AlgorithmSelectorComponent } from './algorithm-selector/algorithm-selector.component';
+import { VisualizationComponent } from './visualization.component';
+import { BubbleSortComponent } from './algorithms/bubble-sort/bubble-sort.component';
 
 @NgModule({
   declarations: [
-    VisualizationComponent
+    VisualizationComponent,
+    AlgorithmSelectorComponent,
+    BubbleSortComponent
   ],
   imports: [
     CommonModule

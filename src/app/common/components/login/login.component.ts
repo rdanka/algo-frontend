@@ -24,9 +24,10 @@ export class LoginComponent {
   onSubmit() {
     this.authService.authenticate(this.loginForm.value as User).subscribe({
       next: data => {
+        console.log(data)
         this.authService.storeUserData(data.accessToken, data.user);
-        this.router.navigate(['/dashboard']);
-        this.toastr.success('You are now loggen in!', 'Success✅', {
+        this.router.navigate(['/visualization']);
+        this.toastr.success('You are now logged in!', 'Success✅', {
           progressBar: true,
           positionClass: 'toast-bottom-right'
         });

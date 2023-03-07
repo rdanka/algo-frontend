@@ -1,0 +1,10 @@
+.visualization-container {
+    display: flex;
+    height: 100%;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }

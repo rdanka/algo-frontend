@@ -1,13 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+html { background-color: red; }
+
+
+html, body, my-app {
+  height: 100%;
+  display: block;
+}
 
 body {
   margin: 0;
   padding: 0;
+  background-color: #F7F6F9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
