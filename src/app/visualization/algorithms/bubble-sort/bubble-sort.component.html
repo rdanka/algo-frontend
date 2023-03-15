@@ -10,10 +10,11 @@
         <th>Algorithm</th>
       </tr>
       <tr>
-        <td>{{NUMBER_OF_SWAP}}</td>
-        <td>{{SELECTED_ALGORITHM}}</td>
+        <td>{{ numberOfSwaps }} / {{ allNumberOfSwaps }}</td>
+        <td>{{ selectedAlgorithm }}</td>
       </tr>
     </table>
+    <input type="range" min=0 max=200 step=10 #ref (change)="onSpeedChange(ref.value)">
   </div>
 
   <button (click)="back()">Back</button>

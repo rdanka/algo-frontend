@@ -1,0 +1,43 @@
+.controller-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--backgroundColor);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    z-index: 50;
+    border-radius: 10px;
+    height: 50px;
+    width: 50%;
+    padding: 0 20px;
+
+    .steps {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .step-counter {
+            border: 1px solid grey;
+            height: 100%;
+            width: 100%;
+            padding: .2rem .5rem;
+            position: relative;
+            z-index: 99;
+
+            &:after {
+                content: "";
+                position: absolute;
+                background-color: green;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: -1;
+            }
+        }
+    }
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+}

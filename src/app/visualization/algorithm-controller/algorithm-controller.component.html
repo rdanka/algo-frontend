@@ -1,0 +1,22 @@
+<div class="controller-container">
+    <div class="stop">
+        <div class="play" *ngIf="isPaused">
+            <i class="fa-solid fa-play"></i>
+            <span>Play</span>
+        </div>
+        <div class="pause" *ngIf="!isPaused">
+            <i class="fa-solid fa-pause"></i>
+            <span>Pause</span>
+        </div>
+    </div>
+    <div class="steps">
+        <i class="fa-solid fa-step-backward"></i>
+        <div class="step-counter">
+            10 / 100
+        </div>
+        <i class="fa-solid fa-step-forward"></i>
+    </div>
+    <div class="speed">
+        <input type="range">
+    </div>
+</div>

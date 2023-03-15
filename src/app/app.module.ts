@@ -19,7 +19,7 @@ import { VisualizationModule } from './visualization/visualization.module';
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

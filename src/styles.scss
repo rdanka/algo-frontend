@@ -26,6 +26,11 @@ body {
   flex-direction: column;
 }
 
+:root {
+  --backgroundColor: #fff; //1F1E1F
+  --mainBackgroundColor: #272627;
+}
+
 .container {
   width: 80%;
   margin: auto;

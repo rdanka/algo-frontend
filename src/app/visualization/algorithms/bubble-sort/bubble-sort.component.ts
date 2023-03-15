@@ -10,29 +10,30 @@ import { animateBubbleSort } from './bubble-sort-animation';
 })
 export class BubbleSortComponent {
 
-  NUMBER_OF_ARRAY_BARS = 10;
+  NUMBER_OF_ARRAY_BARS = 50;
   currentArray:any = [];
   PRIMARY_COLOR = '#0080FF';
   SECONDARY_COLOR = 'red';
-  ANIMATION_SPEED_MS = 30;
-  PIVOT_COLOR = "green";
-  NUMBER_OF_SWAP = 0;
-  SELECTED_ALGORITHM = "";
+  animationSpeedMs = 10;
+  pivotColor = "green";
+  numberOfSwaps = 0;
+  selectedAlgorithm = "";
   clickEventSubscription: Subscription;
   isPaused = false;
   currentStep = 0;
+  allNumberOfSwaps:number;
 
  constructor(private observableService:ObservableService) {
    this.resetArray();
    this.clickEventSubscription = this.observableService.getClickEvent().subscribe((shortType)=>{
-     this.NUMBER_OF_SWAP = 0;
+     this.numberOfSwaps = 0;
      switch(shortType){
        case "re-define":{
          this.resetArray();
          break;
        }
        case "bubble":{
-         this.SELECTED_ALGORITHM = "BUBBLE SORT";
+         this.selectedAlgorithm = "BUBBLE SORT";
          this.playAnimatedSort();
          break;
        }
@@ -49,7 +50,7 @@ export class BubbleSortComponent {
   resetArray(){
    const array = []
    for (let i = 0; i < this.NUMBER_OF_ARRAY_BARS; i++) {
-     array.push(this.randomIntFromInterval(5, 50));
+     array.push(this.randomIntFromInterval(5, 500));
    }
    this.currentArray = array;
   }
@@ -82,7 +83,7 @@ export class BubbleSortComponent {
       
         barOneStyle.style.height = `${v2}px`;
         barTwoStyle.style.height = `${v4}px`;
-        this.NUMBER_OF_SWAP++;
+        this.numberOfSwaps++;
       
     }
   }
@@ -112,7 +113,7 @@ export class BubbleSortComponent {
 
       barOneStyle.style.height = `${v4}px`;
       barTwoStyle.style.height = `${v2}px`;
-      this.NUMBER_OF_SWAP--;
+      this.numberOfSwaps--;
       
     }
   }
@@ -129,10 +130,10 @@ export class BubbleSortComponent {
   
   async playAnimatedSort() {
      let animations = animateBubbleSort(this.currentArray);
+     this.allNumberOfSwaps = animations.length / 3;
      let arrayBars = document.getElementsByClassName('array-bar');
-
      for(let i = this.currentStep; i < animations.length; i++) {
-      
+       console.log(this.animationSpeedMs)
        if(this.isPaused) {
         console.log('pause')
         break; 
@@ -144,30 +145,30 @@ export class BubbleSortComponent {
 
          setTimeout(() => {
            barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-           barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
-          }, i * this.ANIMATION_SPEED_MS);
-          await this.delay(i *this.ANIMATION_SPEED_MS);
+           barTwoStyle.style.backgroundColor = this.pivotColor;
+          }, i * this.animationSpeedMs);
        } else if(check === "HighLightOff") {
          let barOneStyle = <HTMLElement>arrayBars[v1];
          let barTwoStyle = <HTMLElement>arrayBars[v2];
 
          setTimeout(() => {
-           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
-           barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
-          }, i * this.ANIMATION_SPEED_MS);
-          await this.delay(i *this.ANIMATION_SPEED_MS);
+          barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          }, i * this.animationSpeedMs);
        } else if(check === "Swap") {
          let barOneStyle = <HTMLElement>arrayBars[v1];
          let barTwoStyle = <HTMLElement>arrayBars[v3];
 
          setTimeout(() => {
+           barOneStyle.style.backgroundColor = this.pivotColor;
+           barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
            barOneStyle.style.height = `${v2}px`;
            barTwoStyle.style.height = `${v4}px`;
-           this.NUMBER_OF_SWAP++;
-          }, i * this.ANIMATION_SPEED_MS);
-          await this.delay(i *this.ANIMATION_SPEED_MS);
+           this.numberOfSwaps++;
+          }, i * this.animationSpeedMs);
+          //await this.delay(i *this.animationSpeedMs);
        }
-       
+       await this.delay(i *this.animationSpeedMs);
      }
   }
 
@@ -198,7 +199,7 @@ export class BubbleSortComponent {
       
         barOneStyle.style.height = `${v2}px`;
         barTwoStyle.style.height = `${v4}px`;
-        this.NUMBER_OF_SWAP++;
+        this.numberOfSwaps++;
       
     }
   }
@@ -207,4 +208,9 @@ export class BubbleSortComponent {
    return Math.floor(Math.random() * (max - min + 1) + min);
  }
 
+
+ onSpeedChange(speed: string) {
+  console.log(speed);
+  this.animationSpeedMs = parseInt(speed);
+ }
 }
