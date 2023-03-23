@@ -90,6 +90,10 @@ export class VisualizationComponent implements OnInit {
     this.currentArray = generateArray(size);
   }
 
+  onArrayChange(array: number[]): void {
+    this.currentArray = array;
+  }
+
   onArraySort(): void {
     this.allNumberOfSwaps = 0;
     this.numberOfSwaps = 0;

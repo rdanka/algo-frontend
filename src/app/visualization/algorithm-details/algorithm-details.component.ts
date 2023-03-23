@@ -1,6 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ObservableService } from 'src/app/common/services/observable.service';
-import { generateArray } from 'src/app/common/utils/generateArray';
 
 @Component({
   selector: 'app-algorithm-details',
@@ -12,7 +11,13 @@ export class AlgorithmDetailsComponent implements OnInit {
   currentArray: number[];
   arraySize: number;
 
-  @Output() onArrayChange = new EventEmitter<number>();
+  @ViewChild('arrayInput') arrayInput!: ElementRef;
+  
+  @Input() set array(array: number[]) {
+      this.arrayInput.nativeElement.value = array;
+  }
+  @Output() onArraySizeChange = new EventEmitter<number>();
+  @Output() onArrayChange = new EventEmitter<number[]>();
   @Output() onSort = new EventEmitter<void>();
 
   constructor(private readonly observableService: ObservableService) {}
@@ -23,17 +28,19 @@ export class AlgorithmDetailsComponent implements OnInit {
     })
   }
 
-  onArraySizeChange(size: unknown): void {
+  arraySizeChange(size: unknown): void {
     const arraySize = size as number;
     this.arraySize = arraySize;
-    this.onArrayChange.emit(arraySize);
+    this.onArraySizeChange.emit(arraySize);
   }
 
   sort() {
     this.onSort.emit();
   }
 
-  randomIntFromInterval(min:any, max:any) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  generate(): void {
+    console.log(this.arrayInput.nativeElement.value.split(',').map(Number))
+    console.log(Array.from(this.arrayInput.nativeElement.value.split(',').map(Number)))
+    this.onArrayChange.emit(Array.from(this.arrayInput.nativeElement.value.split(',').map(Number)));
   }
 }

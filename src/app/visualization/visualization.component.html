@@ -16,7 +16,9 @@
         </div>
     </div>
     <app-algorithm-details
-        (onArrayChange)="onArraySizeChange($event)"
+        [array]="currentArray"
+        (onArraySizeChange)="onArraySizeChange($event)"
         (onSort)="onArraySort()"
+        (onArrayChange)="onArrayChange($event)"
     ></app-algorithm-details>
 </div>
