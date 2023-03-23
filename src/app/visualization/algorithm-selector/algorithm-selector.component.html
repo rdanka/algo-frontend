@@ -1,7 +1,12 @@
 <div class="selector-container">
   <ul>
-    <li (click)="startSort('bubble')">Bubble Sort</li>
-    <li>Quick Sort</li>
-    <li>Merge Sort</li>
+    <li>
+      <span class="selector-container-title">Sorting Algorithms</span>
+      <ul>
+        <li (click)="selectSort('bubble')">Bubble Sort</li>
+        <li (click)="selectSort('quick')">Quick Sort</li>
+        <li (click)="selectSort('merge')">Merge Sort</li>
+      </ul>
+    </li>
   </ul>
 </div>

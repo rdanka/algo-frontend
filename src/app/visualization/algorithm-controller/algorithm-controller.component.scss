@@ -7,7 +7,8 @@
     z-index: 50;
     border-radius: 10px;
     height: 50px;
-    width: 50%;
+    min-width: fit-content;
+    width: 100%;
     padding: 0 20px;
 
     .steps {
@@ -16,18 +17,17 @@
         gap: 1rem;
 
         .step-counter {
-            border: 1px solid grey;
+            border: 1px solid #707070;
             height: 100%;
             width: 100%;
             padding: .2rem .5rem;
             position: relative;
             z-index: 99;
 
-            &:after {
-                content: "";
+            .progress {
                 position: absolute;
-                background-color: green;
-                width: 100%;
+                background-color: #15A562;
+                width: 0%;
                 height: 100%;
                 top: 0;
                 left: 0;
@@ -35,6 +35,18 @@
             }
         }
     }
+}
+
+i {
+    cursor: pointer;
+}
+
+.play-button {
+    margin-right: 1rem;
+}
+
+span {
+    user-select: none
 }
 
 :host {

@@ -1,8 +1,22 @@
 <div class="visualization-container">
-    <app-algorithm-selector></app-algorithm-selector>
+    <app-algorithm-selector
+        (onAlgorithmSelected)="selectAlgorithm($event)"
+    ></app-algorithm-selector>
     <div>
-        <app-algorithm-controller></app-algorithm-controller>
-        <bubble-sort></bubble-sort>
+        <app-algorithm-controller
+            [currentNumberOfSwaps]="numberOfSwaps"
+            [totalSwaps]="allNumberOfSwaps"
+            (onPause)="onPause()"
+        ></app-algorithm-controller>
+        <div>
+            <div class="array-container">
+                <div class="array-bar" *ngFor="let i of currentArray;" [ngStyle]="{'height': i+'px','background-color':PRIMARY_COLOR}">
+                </div>
+            </div>
+        </div>
     </div>
-    <app-algorithm-details></app-algorithm-details>
+    <app-algorithm-details
+        (onArrayChange)="onArraySizeChange($event)"
+        (onSort)="onArraySort()"
+    ></app-algorithm-details>
 </div>

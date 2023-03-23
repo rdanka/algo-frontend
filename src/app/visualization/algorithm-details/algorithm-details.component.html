@@ -1,6 +1,13 @@
 <div class="details-container">
     <div class="settings">
-        <button>Generate</button>
+        <div>
+            Array: <input type="text">
+            Array size: <input type="range" name="arraySize" id="arraySize" min="2" max="100" #arraySize (input)="onArraySizeChange(arraySize.value)"><span> {{arraySize.value}}</span>
+        </div>
+        <div class="buttons">
+            <button >Generate</button>
+            <button (click)="sort()">Sort</button>
+        </div>
     </div>
     <div class="code"></div>
 </div>

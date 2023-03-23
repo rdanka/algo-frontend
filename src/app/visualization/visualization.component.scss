@@ -3,7 +3,36 @@
     height: 100%;
     justify-content: space-between;
     align-items: center;
+
+    &:title {
+        color: #742CDF;
+    }
 }
+
+.array-container {
+    margin-top: 40px;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    height: 500px;
+    width: 500px;
+    margin: 100px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .array-bar {
+    width: 20px;
+    display: inline-block;
+    margin: 0 2px;
+  }
+  
+  .score{
+    position: relative;
+    margin: 10px;
+  }
+  
 
 :host {
     display: flex;

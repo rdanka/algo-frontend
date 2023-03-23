@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ObservableService } from 'src/app/common/services/observable.service';
 
 @Component({
@@ -8,16 +8,12 @@ import { ObservableService } from 'src/app/common/services/observable.service';
 })
 export class AlgorithmSelectorComponent {
   isActive = true;
+  @Output() onAlgorithmSelected = new EventEmitter<string>();
 
   constructor(private readonly observableService: ObservableService) {}
 
-  public doStuff(): void {
-    this.isActive = !this.isActive;
-    console.log(this.isActive)
-  }
-
-  startSort(shortType:String) {
-    this.observableService.sendClickEvent(shortType);
+  selectSort(sortType: string) {
+    this.onAlgorithmSelected.emit(sortType);
   }
   
 }

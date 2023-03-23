@@ -1,18 +1,19 @@
 <div class="controller-container">
     <div class="stop">
         <div class="play" *ngIf="isPaused">
-            <i class="fa-solid fa-play"></i>
-            <span>Play</span>
+            <i class="fa-solid fa-play play-button" (click)="togglePause()"></i>
+            <span > Play</span>
         </div>
         <div class="pause" *ngIf="!isPaused">
-            <i class="fa-solid fa-pause"></i>
+            <i class="fa-solid fa-pause play-button" (click)="togglePause()"></i>
             <span>Pause</span>
         </div>
     </div>
     <div class="steps">
         <i class="fa-solid fa-step-backward"></i>
         <div class="step-counter">
-            10 / 100
+            <span class="progress" [ngStyle]="{'width': (currentNumberOfSwaps / (totalSwaps/100))  + '%' }"></span>
+            {{ currentNumberOfSwaps }} / {{ totalSwaps || 0 }}
         </div>
         <i class="fa-solid fa-step-forward"></i>
     </div>

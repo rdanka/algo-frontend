@@ -1,22 +1,4 @@
 <div class="array-container">
-    <div class="array-bar" *ngFor="let i of currentArray;" [ngStyle]="{'height': i+'px','background-color':PRIMARY_COLOR}">
-    </div>
+  <div class="array-bar" *ngFor="let i of currentArray;" [ngStyle]="{'height': i+'px','background-color':PRIMARY_COLOR}">
   </div>
-  
-  <div class="score" style="display: block;">
-    <table>
-      <tr>
-        <th>Swap</th>
-        <th>Algorithm</th>
-      </tr>
-      <tr>
-        <td>{{ numberOfSwaps }} / {{ allNumberOfSwaps }}</td>
-        <td>{{ selectedAlgorithm }}</td>
-      </tr>
-    </table>
-    <input type="range" min=0 max=200 step=10 #ref (change)="onSpeedChange(ref.value)">
-  </div>
-
-  <button (click)="back()">Back</button>
-  <button (click)="pause()">{{ isPaused ? 'play' : 'pause'}}</button>
-  <button (click)="next()">Next</button>
+</div>

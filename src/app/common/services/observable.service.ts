@@ -7,11 +7,12 @@ import { Observable, Subject } from 'rxjs';
 export class ObservableService {
 
   private subject = new Subject<any>();
+  private arraySubject = new Subject<number[]>();
   private sizeAsSubject = new Subject<any>();
 
   constructor() { }  
 
-  sendClickEvent(shortType:String) {
+  sendClickEvent(shortType: string) {
     this.subject.next(shortType);
   }
 
@@ -26,5 +27,33 @@ export class ObservableService {
   getChangeInSize():Observable<any>{
     return this.sizeAsSubject.asObservable();
   }
+
+  sendAlgorithm(sortType: string) {
+    console.log('asd')
+    this.subject.next(sortType);
+  }
+
+  getAlgorithm(): Observable<any> {
+    return this.subject.asObservable();
+  }
+
+  sortAlgorithm(sortType: string) {
+    console.log('Sort called');
+    this.subject.next(sortType);
+  }
+
+  getSortAlgorithm(): Observable<any> {
+    return this.subject.asObservable();
+  }
+
+  sendArray(array: number[]) {
+    this.arraySubject.next(array);
+  }
+
+  getArray(): Observable<any> {
+    return this.arraySubject.asObservable();
+  }
+
+
 
 }
