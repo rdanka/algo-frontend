@@ -58,6 +58,7 @@ export class VisualizationComponent implements OnInit {
       } else if(check === "HighLightOff") {
         let barOneStyle = <HTMLElement>arrayBars[v1];
         let barTwoStyle = <HTMLElement>arrayBars[v2];
+        
 
         setTimeout(() => {
          barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
@@ -72,10 +73,13 @@ export class VisualizationComponent implements OnInit {
           barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
           barOneStyle.style.height = `${v2}px`;
           barTwoStyle.style.height = `${v4}px`;
+          if (this.currentArray.length < 34) {
+            barOneStyle.children[0].innerHTML = v2;
+            barTwoStyle.children[0].innerHTML = v4;
+          }
           this.numberOfSwaps++;
-         // this.currentnumberOfSwaps.emit(this.numberOfSwaps);
          }, i * this.animationSpeedMs);
-         //await delay(this.animationSpeedMs);
+         await delay(this.animationSpeedMs);
       }
       this.currentStep++;
       await delay(this.animationSpeedMs*i);
@@ -107,5 +111,9 @@ export class VisualizationComponent implements OnInit {
       console.log(this.currentStep)
       this.playAnimatedSort();
     }
+  }
+
+  onSpeedChange(speedMs: number): void {
+    this.animationSpeedMs = speedMs;
   }
 }

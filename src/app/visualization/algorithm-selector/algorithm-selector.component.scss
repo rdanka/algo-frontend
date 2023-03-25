@@ -1,7 +1,7 @@
 :host {
     display: flex;
     flex-direction: column;
-    width: 17%;
+    //width: 17%;
     height: 100%;
 }
 .selector-container {
@@ -17,18 +17,23 @@
         margin-top: 1rem;
         list-style-type: none;
         
+        .active {
+            background-color: #742CDF;
+            border-radius: 10px;
+            color: #fff;
+        }
         li {
             color: #742CDF;
-            font-size: 1.2rem;
-            ul {
-                margin-top: 0;
-                margin-left: 3rem;
-                li {
-                    cursor: pointer;
-                    font-size: 1rem;
-                    color: #A4A3B4;
-                }
+            cursor: pointer;
+            padding: .5rem;
+            margin: .2rem;
+
+            &:hover {
+                background-color: #742CDF;
+                border-radius: 10px;
+                color: #fff;
             }
+
         }
     }
 }

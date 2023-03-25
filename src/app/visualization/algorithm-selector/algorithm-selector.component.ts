@@ -7,12 +7,13 @@ import { ObservableService } from 'src/app/common/services/observable.service';
   styleUrls: ['./algorithm-selector.component.scss']
 })
 export class AlgorithmSelectorComponent {
-  isActive = true;
+  active = 'bubble';
   @Output() onAlgorithmSelected = new EventEmitter<string>();
 
   constructor(private readonly observableService: ObservableService) {}
 
   selectSort(sortType: string) {
+    this.active = sortType;
     this.onAlgorithmSelected.emit(sortType);
   }
   

@@ -1,12 +1,7 @@
 <div class="selector-container">
   <ul>
-    <li>
-      <span class="selector-container-title">Sorting Algorithms</span>
-      <ul>
-        <li (click)="selectSort('bubble')">Bubble Sort</li>
-        <li (click)="selectSort('quick')">Quick Sort</li>
-        <li (click)="selectSort('merge')">Merge Sort</li>
-      </ul>
-    </li>
+    <li [ngClass]="active === 'bubble' ? 'active' : ''" (click)="selectSort('bubble')">Bubble Sort</li>
+    <li [ngClass]="active === 'quick' ? 'active' : ''" (click)="selectSort('quick')">Quick Sort</li>
+    <li [ngClass]="active === 'merge' ? 'active' : ''" (click)="selectSort('merge')">Merge Sort</li>
   </ul>
 </div>

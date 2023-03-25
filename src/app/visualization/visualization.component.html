@@ -7,10 +7,13 @@
             [currentNumberOfSwaps]="numberOfSwaps"
             [totalSwaps]="allNumberOfSwaps"
             (onPause)="onPause()"
+            (onRepeat)="onArraySort()"
+            (onSpeed)="onSpeedChange($event)"
         ></app-algorithm-controller>
         <div>
             <div class="array-container">
-                <div class="array-bar" *ngFor="let i of currentArray;" [ngStyle]="{'height': i+'px','background-color':PRIMARY_COLOR}">
+                <div class="array-bar" *ngFor="let i of currentArray;"  [ngStyle]="{'height': i+'px','background-color':PRIMARY_COLOR, 'width': 1000/currentArray.length+'px'}">
+                    <span *ngIf="currentArray.length < 34" class="number">{{i}}</span>
                 </div>
             </div>
         </div>

@@ -4,9 +4,13 @@
             <i class="fa-solid fa-play play-button" (click)="togglePause()"></i>
             <span > Play</span>
         </div>
-        <div class="pause" *ngIf="!isPaused">
+        <div class="pause" *ngIf="!isPaused && !(currentNumberOfSwaps === totalSwaps)">
             <i class="fa-solid fa-pause play-button" (click)="togglePause()"></i>
             <span>Pause</span>
+        </div>
+        <div *ngIf="currentNumberOfSwaps === totalSwaps">
+            <i class="fa-solid fa-repeat play-button" (click)="replay()"></i>
+            <span>Replay</span>
         </div>
     </div>
     <div class="steps">
@@ -18,6 +22,6 @@
         <i class="fa-solid fa-step-forward"></i>
     </div>
     <div class="speed">
-        <input type="range">
+        <input type="range" min="0" max="200" #speed (input)="onSpeedChange(speed.value)">
     </div>
 </div>
