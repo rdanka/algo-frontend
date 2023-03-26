@@ -23,6 +23,7 @@ export class AlgorithmControllerComponent {
   }
 
   onSpeedChange(speedMs: string): void {
+    console.log(speedMs);
     this.onSpeed.emit(parseInt(speedMs));
   }
 }

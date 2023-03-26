@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlgorithmSelectorComponent } from './algorithm-selector/algorithm-selector.component';
 import { VisualizationComponent } from './visualization.component';
-import { BubbleSortComponent } from './algorithms/bubble-sort/bubble-sort.component';
 import { AlgorithmDetailsComponent } from './algorithm-details/algorithm-details.component';
 import { AlgorithmControllerComponent } from './algorithm-controller/algorithm-controller.component';
 
@@ -10,7 +9,6 @@ import { AlgorithmControllerComponent } from './algorithm-controller/algorithm-c
   declarations: [
     VisualizationComponent,
     AlgorithmSelectorComponent,
-    BubbleSortComponent,
     AlgorithmDetailsComponent,
     AlgorithmControllerComponent
   ],
