@@ -12,6 +12,7 @@ export class AlgorithmDetailsComponent implements OnInit {
   arraySize: number;
 
   @ViewChild('arrayInput') arrayInput!: ElementRef;
+  @ViewChild('arraySize') arraySizeInput!: ElementRef;
   
   @Input() set array(array: number[]) {
       if (this.arrayInput) this.arrayInput.nativeElement.value = array;
@@ -39,6 +40,8 @@ export class AlgorithmDetailsComponent implements OnInit {
   }
 
   generate(): void {
-    this.onArrayChange.emit(Array.from(this.arrayInput.nativeElement.value.split(',').map(Number)));
+    const array: number[] = Array.from(this.arrayInput.nativeElement.value.split(',').map(Number));
+    this.onArrayChange.emit(array);
+    this.arraySizeInput.nativeElement.value = array.length;
   }
 }
