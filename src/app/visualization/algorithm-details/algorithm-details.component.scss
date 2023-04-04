@@ -22,8 +22,30 @@
         flex-direction: column;
         justify-content: space-between;
 
+        div {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+
+            .arrayInput {
+                outline: none;
+                border: 2px solid #742CDF;
+                border-radius: 10px;
+                width: 100%;
+                font-size: 1rem;
+                margin: .5rem 0;
+            }
+
+            #arraySize {
+                accent-color: #742CDF;
+            }
+        }
+
         .buttons {
             display: flex;
+            flex-direction: row;
             justify-content: space-around;
             margin: 10px 0;
 

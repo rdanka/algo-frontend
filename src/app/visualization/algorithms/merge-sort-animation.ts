@@ -19,7 +19,7 @@ function doMerge(mainArray: number[],startIdx:number,middleIdx:number,endIdx:num
     let k = startIdx;
     let i = startIdx;
     let j = middleIdx + 1;
-    console.log("Before Ever iteration k = " + k);
+    //console.log("Before Ever iteration k = " + k);
     while (i <= middleIdx && j <= endIdx) {
       // These are the values that we're comparing; we push them once
       // to change their color.
@@ -64,4 +64,3 @@ function doMerge(mainArray: number[],startIdx:number,middleIdx:number,endIdx:num
       mainArray[k++] = auxiliaryArray[j++];
     }
   }
-  

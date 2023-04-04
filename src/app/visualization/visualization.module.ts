@@ -10,7 +10,7 @@ import { AlgorithmControllerComponent } from './algorithm-controller/algorithm-c
     VisualizationComponent,
     AlgorithmSelectorComponent,
     AlgorithmDetailsComponent,
-    AlgorithmControllerComponent
+    AlgorithmControllerComponent,
   ],
   imports: [
     CommonModule

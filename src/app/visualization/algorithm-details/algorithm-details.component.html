@@ -1,13 +1,18 @@
 <div class="details-container">
     <div class="settings">
         <div>
-            Array: <input type="text" #arrayInput style="width: fit-content;"><br>
-            Array size: <input type="range" name="arraySize" id="arraySize" min="2" max="100" #arraySize (input)="arraySizeChange(arraySize.value)"><span> {{arraySize.value}}</span>
+            Array: 
+            <textarea type="text" rows="10"class="arrayInput" #arrayInput style="width: fit-content;"></textarea>    
+            Array size: 
+            <span>
+                <input type="range" name="arraySize" id="arraySize" min="2" max="100" #arraySize (input)="arraySizeChange(arraySize.value)"><span> {{arraySize.value}}</span>
+            </span>
         </div>
         <div class="buttons">
             <button (click)="generate()">Generate</button>
             <button (click)="sort()">Sort</button>
         </div>
     </div>
-    <div class="code"></div>
+    <div class="code">
+    </div>
 </div>

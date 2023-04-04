@@ -14,7 +14,7 @@ export class AlgorithmDetailsComponent implements OnInit {
   @ViewChild('arrayInput') arrayInput!: ElementRef;
   
   @Input() set array(array: number[]) {
-      this.arrayInput.nativeElement.value = array;
+      if (this.arrayInput) this.arrayInput.nativeElement.value = array;
   }
   @Output() onArraySizeChange = new EventEmitter<number>();
   @Output() onArrayChange = new EventEmitter<number[]>();
@@ -39,8 +39,6 @@ export class AlgorithmDetailsComponent implements OnInit {
   }
 
   generate(): void {
-    console.log(this.arrayInput.nativeElement.value.split(',').map(Number))
-    console.log(Array.from(this.arrayInput.nativeElement.value.split(',').map(Number)))
     this.onArrayChange.emit(Array.from(this.arrayInput.nativeElement.value.split(',').map(Number)));
   }
 }

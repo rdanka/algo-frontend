@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AlgorithmControllerComponent {
   isPaused = false;
+  
   @Input() totalSwaps: number = 0;
   @Input() currentNumberOfSwaps: number = 0;
   @Output() onPause = new EventEmitter<boolean>();
