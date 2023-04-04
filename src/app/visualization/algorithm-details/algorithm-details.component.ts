@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ObservableService } from 'src/app/common/services/observable.service';
+import { generateArray } from 'src/app/common/utils/generateArray';
 
 @Component({
   selector: 'app-algorithm-details',
@@ -24,6 +25,7 @@ export class AlgorithmDetailsComponent implements OnInit {
   constructor(private readonly observableService: ObservableService) {}
 
   ngOnInit(): void {
+    this.onArrayChange.emit(generateArray(50));
     this.observableService.getAlgorithm().subscribe((shortType)=>{
       this.selectedAlgorithm = shortType;
     })

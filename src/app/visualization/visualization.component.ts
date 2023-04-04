@@ -13,7 +13,7 @@ import { animateSelectionSort } from './algorithms/selection-sort-animation';
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.scss']
 })
-export class VisualizationComponent implements OnInit {
+export class VisualizationComponent {
 
   totalSwaps: number;
   currentnumberOfSwaps: number;
@@ -31,13 +31,6 @@ export class VisualizationComponent implements OnInit {
   allNumberOfSwaps:number;
 
   constructor(private observableService: ObservableService) {}
-
-  ngOnInit() {
-    this.selectedAlgorithm.subscribe((algorithm: string) => {
-      this.currentArray = generateArray(50);
-    });
-  }
-
 
     async bubbleSort() {
       let animations = animateBubbleSort(this.currentArray);
