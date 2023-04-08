@@ -1,18 +1,32 @@
-<div class="container">
-    <div class="auth-container">
-        <div class="draw"></div>
-        <div class="form">
-            <div class="form__title">Register</div>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
-            <label for="user-name">Username: </label>
-            <input id="user-name" type="text" formControlName="username">
-
-            <label for="password">Password</label>
-            <input id="password" type="password" formControlName="password">
-            
-            <button type="submit" [disabled]="!loginForm.valid">Login</button>
-          </form>
-        </div>
-    </div>
+<div class="container" id="container" [ngClass]="status ? '' : 'right-panel-active'">
+	<div class="form-container sign-up-container">
+		<form [formGroup]="studentForm" (ngSubmit)="onStudentSubmit()">
+			<h1>Sign in</h1>
+			<span>using your ID</span>
+			<input type="text" placeholder="Neptun ID" />
+			<button>Sign In</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+			<h1>Sign in</h1>
+			<input type="text" formControlName="username" placeholder="Username"/>
+			<input type="password" placeholder="Password" formControlName="password"/>
+			<button [disabled]="!loginForm.valid">Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Here to teach?</h1>
+				<p>Create an account and start registering students here!</p>
+				<button class="ghost" id="signUp" (click)="toggleUser()">Sign Up</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+                <h1>Here to study?</h1>
+				<p>Log in using your Neptun ID here!</p>
+				<button class="ghost" id="signIn" (click)="toggleUser()">Log In</button>
+			</div>
+		</div>
+	</div>
 </div>

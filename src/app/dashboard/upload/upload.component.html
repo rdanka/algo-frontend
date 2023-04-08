@@ -1,0 +1,15 @@
+<div class="upload-container">
+    <h1>Register Students</h1>
+    <h4>Upload csv files or text files where the IDs are comma separated.</h4>
+    <form [formGroup]="classForm" (ngSubmit)="submit()">
+        <p>Class name:</p>
+    <input type="text" formControlName="className" placeholder="Type class name here..." required>
+    <p>Student IDs:</p>
+    <label for="list" class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" (change)="onChange($event)" required>
+    </label>
+    <button class="upload-button">Create Class</button>
+    </form>
+</div>

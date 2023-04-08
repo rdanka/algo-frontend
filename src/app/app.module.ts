@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
 import { VisualizationModule } from './visualization/visualization.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { VisualizationModule } from './visualization/visualization.module';
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    VisualizationModule
+    VisualizationModule,
+    DashboardModule
   ],
   providers: [ AuthService ],
   bootstrap: [AppComponent]

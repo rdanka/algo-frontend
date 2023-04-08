@@ -21,6 +21,16 @@ export class LoginComponent {
     password: new FormControl('')
   });
 
+  studentForm = new FormGroup({
+    neptunID: new FormControl(''),
+  });
+
+  status = true;
+
+  toggleUser() {
+    this.status = !this.status;
+  }
+
   onSubmit() {
     this.authService.authenticate(this.loginForm.value as User).subscribe({
       next: data => {
@@ -37,5 +47,9 @@ export class LoginComponent {
         positionClass: 'toast-bottom-right'
       })
     });
+  }
+
+  onStudentSubmit() {
+    console.log(this.studentForm.value)
   }
 }

@@ -5,8 +5,15 @@
         <li routerLink="register">Register</li>
     </ul>
     <ul *ngIf="isLoggedIn$ | async">
-        <li (click)="onLogout()">
-            <span class="profile">Logout</span>
+        <li class="avatar">
+            <div class="dropdown">
+                <div class="dropdown-content">
+                    <a routerLink="dashboard">Dashboard</a>
+                    <a routerLink="upload">Add Classes</a>
+                    <a (click)="onLogout()">Logout</a>
+                </div>
+            </div>
         </li>
+        
     </ul>
 </nav>
