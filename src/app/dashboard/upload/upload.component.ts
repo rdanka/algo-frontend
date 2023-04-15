@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { ClassService } from 'src/app/common/services/class.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class UploadComponent {
     studentList: new FormControl<string[]>([])
   });
 
-  constructor(private readonly classService: ClassService) {}
+  constructor(private readonly classService: ClassService, private readonly toastService: ToastrService) {}
 
   
 
@@ -41,6 +42,9 @@ export class UploadComponent {
 
   submit(): void {
     console.log(this.classForm.value)
-    this.classService.createClass(this.classForm.value).subscribe(data=> console.log(data))
+    this.classService.createClass(this.classForm.value).subscribe({
+      next: () => this.toastService.success('Class was added!', 'Succes!'),
+      error: (err) => this.toastService.error(`${err.error}`, 'Error!'),
+    })
   }
 }

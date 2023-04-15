@@ -1,0 +1,32 @@
+:host {
+    flex: 8;
+}
+
+.result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        justify-items: center;
+        padding: 1rem;
+
+        .grid > div {
+            align-self: center;
+            justify-self: center;
+        }
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

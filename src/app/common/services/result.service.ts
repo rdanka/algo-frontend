@@ -1,27 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../enviroment';
+import { environment } from 'src/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClassService {
+export class ResultService {
 
   constructor(private readonly http: HttpClient) { }
 
-  createClass(params: any) {
+  getResultsByStudentId(studentId: string) {
     const headers= new HttpHeaders()
                 .set('content-type', 'application/json')
                 .set('Authorization', `${localStorage.getItem('id_token')}`);
 
-    return this.http.post<any>(`${environment.baseUrl}/users/addClass`, params, { headers });
+    return this.http.get<any>(`${environment.baseUrl}/results/getByStudentId?studentId=${studentId}`, { headers });
   }
 
-  getAllClasses() {
+  getResultsByClassId(className: string) {
     const headers= new HttpHeaders()
                 .set('content-type', 'application/json')
                 .set('Authorization', `${localStorage.getItem('id_token')}`);
 
-    return this.http.get<any>(`${environment.baseUrl}/users/getAllClasses`, { headers });
+    return this.http.get<any>(`${environment.baseUrl}/results/getByClassId?className=${className}`, { headers });
   }
-} 
+}

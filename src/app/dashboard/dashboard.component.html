@@ -1,1 +1,8 @@
-<div>works</div>
+<app-sidebar
+    (onIdChange)="setUserId($event)"
+    (onClassChange)="setClassName($event)"
+></app-sidebar>
+<app-results
+    [id]="userId"
+    [className]="className"
+></app-results>

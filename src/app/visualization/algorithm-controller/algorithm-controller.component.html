@@ -16,7 +16,7 @@
     <div class="steps">
         <i class="fa-solid fa-step-backward"></i>
         <div class="step-counter">
-            <span class="progress" [ngStyle]="{'width': (currentNumberOfSwaps / (totalSwaps/100))  + '%' }"></span>
+            <span class="progress" [ngStyle]="{'width': (currentNumberOfSwaps / (totalSwaps / 100))  + '%' }"></span>
             {{ currentNumberOfSwaps }} / {{ totalSwaps || 0 }}
         </div>
         <i class="fa-solid fa-step-forward"></i>

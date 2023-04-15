@@ -1,0 +1,35 @@
+<div class="result-container">
+    <div *ngIf="viewToggle === ''">Please choose a student or class to view results!</div>
+    <div *ngIf="viewToggle === 'class'" class="grid">
+        <div>
+            <app-class-bubble
+                [data]="classData"
+            >
+            </app-class-bubble>
+        </div>
+        <div>
+            <app-class-merge
+                [data]="classData"
+            >
+            </app-class-merge>
+        </div>
+        <div>
+            <app-class-quick
+                [data]="classData"
+            >
+            </app-class-quick>
+        </div>
+        <div>
+            <app-class-selection
+                [data]="classData"
+            >
+            </app-class-selection>
+        </div>
+    </div>
+    <div *ngIf="viewToggle === 'student'" class="flex">
+        <app-student-chart
+            [labels]="algorithms"
+            [data]="points"
+        ></app-student-chart>
+    </div>
+</div>
