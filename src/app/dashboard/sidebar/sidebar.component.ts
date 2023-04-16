@@ -15,13 +15,19 @@ export class SidebarComponent implements OnInit {
   constructor(private readonly classService: ClassService) {}
 
   ngOnInit() {
-   this.classService.getAllClasses().subscribe(data => {this.classes = data.classes;  console.log(this.classes)}) 
+   this.classService.getAllClasses().subscribe(data => {
+    this.classes = data.classes;
+    for (let studentClass of this.classes) {
+        studentClass.studentIds.sort();
+    }
+  }) 
   }
 
   toggleClass(event: Event, className: string) {
     const el: HTMLElement= event.target as HTMLElement; 
      el.closest('li')!.classList.toggle('active-class');
     if (el.closest('li')!.classList.contains('student')) {
+      console.log(el.closest('li')!.innerText)
       this.onIdChange.emit(el.closest('li')!.innerText);
     } else {
       this.onClassChange.emit(className);
@@ -29,6 +35,11 @@ export class SidebarComponent implements OnInit {
   }
 
   changeClass(className: string) {
+    console.log(className)
     this.onClassChange.emit(className);
+  }
+
+  toggleStudent(studentId: string) {
+    this.onIdChange.emit(studentId);
   }
 }

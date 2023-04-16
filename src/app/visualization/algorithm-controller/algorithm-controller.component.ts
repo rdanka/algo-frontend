@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ResultService } from 'src/app/common/services/result.service';
 
 @Component({
   selector: 'app-algorithm-controller',
@@ -27,4 +28,7 @@ export class AlgorithmControllerComponent {
     console.log(speedMs);
     this.onSpeed.emit(parseInt(speedMs));
   }
+
+  
 }
+

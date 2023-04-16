@@ -19,6 +19,18 @@ export class ClassSelectionComponent {
 }
 
   createChart(){
+    this.data.sort(function (a: any, b: any) {
+      if (a.studentId < b.studentId) {
+        return -1;
+      }
+      if (a.studentId > b.studentId) {
+        return 1;
+      }
+      return 0;
+    });
+    
+    this.labels = [];
+    this.points = [];
     this.data.forEach((result:any) => {
       if (result.algorithmName === 'Selection Sort') {
         this.labels.push(result.studentId);

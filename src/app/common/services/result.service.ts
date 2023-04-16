@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { environment } from 'src/enviroment';
 
 @Injectable({
@@ -23,5 +24,9 @@ export class ResultService {
                 .set('Authorization', `${localStorage.getItem('id_token')}`);
 
     return this.http.get<any>(`${environment.baseUrl}/results/getByClassId?className=${className}`, { headers });
+  }
+
+  addResult(params: any) {
+    return this.http.post<any>(`${environment.baseUrl}/results/add`, params);
   }
 }

@@ -38,9 +38,9 @@ export class ResultsComponent {
           this.algorithms.push(result.algorithmName);
           this.points.push(result.result);
         });
-        console.log(this.algorithms)
       })
     } else if (this.viewToggle === 'class') {
+      console.log(this._className)
       this.resultService.getResultsByClassId(this._className).subscribe(data => this.classData = data)
     }
   }

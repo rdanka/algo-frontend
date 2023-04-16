@@ -1,5 +1,5 @@
 <nav>
-    <h2 class="logo">Algo</h2>
+    <h2 class="logo" routerLink="visualization">Algo</h2>
     <ul *ngIf="!(isLoggedIn$ | async)">
         <li routerLink="login">Login</li>
         <li routerLink="register">Register</li>

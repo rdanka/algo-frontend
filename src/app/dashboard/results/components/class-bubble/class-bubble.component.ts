@@ -15,11 +15,24 @@ export class ClassBubbleComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.chart)  this.chart.destroy();
     if (changes['data'].currentValue) {
+      console.log(changes['data'])
       this.createChart()
     }
 }
 
   createChart(){
+    this.data.sort(function (a: any, b: any) {
+      if (a.studentId < b.studentId) {
+        return -1;
+      }
+      if (a.studentId > b.studentId) {
+        return 1;
+      }
+      return 0;
+    });
+    
+    this.labels = [];
+    this.points = [];
     this.data.forEach((result:any) => {
         if (result.algorithmName === 'Bubble Sort') {
           this.labels.push(result.studentId);
