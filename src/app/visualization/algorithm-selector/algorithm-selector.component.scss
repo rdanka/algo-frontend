@@ -11,7 +11,7 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
     z-index: 50;
     height: 100%;
-    padding: 0 20px;
+    padding: 0 10px;
     
     ul {
         margin-top: 1rem;
@@ -19,7 +19,6 @@
         
         .active {
             background-color: #742CDF;
-            border-radius: 10px;
             color: #fff;
         }
         li {
@@ -29,8 +28,8 @@
             margin: .2rem;
 
             &:hover {
-                background-color: #742CDF;
-                border-radius: 10px;
+                background-color: rgba(116, 44, 223, 0.2196078431);
+                
                 color: #fff;
             }
 

@@ -32,7 +32,6 @@
             .arrayInput {
                 outline: none;
                 border: 2px solid #742CDF;
-                border-radius: 10px;
                 width: 100%;
                 font-size: 1rem;
                 margin: .5rem 0;
@@ -45,7 +44,7 @@
 
         .buttons {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-around;
             margin: 10px 0;
 
@@ -60,11 +59,33 @@
                 font-weight: 500;
                 cursor: pointer;
             }
+
+            .generate {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+                button {
+                    width: 45%;
+                }
+            }
+
+            .quiz {
+                display: flex;
+                width: 100%;
+                margin-top: .7rem;
+                button {
+                    width: 100%;
+                    border-radius: none;
+                }
+            }
         }
     }
 
     .code {
-        flex-grow: 1;
+        flex-grow: 23;
         width: 100%;
     }
 }
