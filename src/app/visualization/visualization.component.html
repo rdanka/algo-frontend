@@ -10,7 +10,7 @@
             (onRepeat)="onArraySort()"
             (onSpeed)="onSpeedChange($event)"
         ></app-algorithm-controller>
-        <div>
+        <div >
             <div class="array-container">
                 <div class="array-bar" *ngFor="let i of currentArray;"  [ngStyle]="{'height': i+'px','background-color':PRIMARY_COLOR, 'width': 1000/currentArray.length+'px'}">
                     <span *ngIf="currentArray.length < 34" class="number">{{i}}</span>
@@ -23,5 +23,13 @@
         (onArraySizeChange)="onArraySizeChange($event)"
         (onSort)="onArraySort()"
         (onArrayChange)="onArrayChange($event)"
+        (onOpenQuiz)="dialog.showModal()"
     ></app-algorithm-details>
+
+    <dialog #dialog>
+       <app-algorithm-quiz
+       [selectedAlgorithm]="selectedAlgorithm"
+       (onModalClose)="dialog.close()"
+       ></app-algorithm-quiz>
+    </dialog>
 </div>

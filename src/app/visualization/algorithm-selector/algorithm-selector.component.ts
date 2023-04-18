@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ObservableService } from 'src/app/common/services/observable.service';
 
 @Component({
   selector: 'app-algorithm-selector',
@@ -10,7 +9,7 @@ export class AlgorithmSelectorComponent {
   active = 'bubble';
   @Output() onAlgorithmSelected = new EventEmitter<string>();
 
-  constructor(private readonly observableService: ObservableService) {}
+  constructor() {}
 
   selectSort(sortType: string) {
     this.active = sortType;

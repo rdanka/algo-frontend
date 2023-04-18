@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ObservableService } from 'src/app/common/services/observable.service';
 import { generateArray } from 'src/app/common/utils/generateArray';
 
 @Component({
@@ -21,14 +20,12 @@ export class AlgorithmDetailsComponent implements OnInit {
   @Output() onArraySizeChange = new EventEmitter<number>();
   @Output() onArrayChange = new EventEmitter<number[]>();
   @Output() onSort = new EventEmitter<void>();
+  @Output() onOpenQuiz = new EventEmitter<void>();
 
-  constructor(private readonly observableService: ObservableService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.onArrayChange.emit(generateArray(50));
-    this.observableService.getAlgorithm().subscribe((shortType)=>{
-      this.selectedAlgorithm = shortType;
-    })
   }
 
   arraySizeChange(size: unknown): void {
@@ -45,5 +42,9 @@ export class AlgorithmDetailsComponent implements OnInit {
     const array: number[] = Array.from(this.arrayInput.nativeElement.value.split(',').map(Number));
     this.onArrayChange.emit(array);
     this.arraySizeInput.nativeElement.value = array.length;
+  }
+
+  open() {
+    this.onOpenQuiz.emit();
   }
 }

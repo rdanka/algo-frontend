@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ObservableService } from '../common/services/observable.service';
 import { animateBubbleSort } from './algorithms/bubble-sort-animation';
 import { generateArray } from '../common/utils/generateArray';
 import { delay } from '../common/utils/delay';
@@ -30,7 +29,7 @@ export class VisualizationComponent {
   currentStep = 0;
   allNumberOfSwaps:number;
 
-  constructor(private observableService: ObservableService) {}
+  constructor() {}
 
     async bubbleSort() {
       let animations = animateBubbleSort(this.currentArray);
