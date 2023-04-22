@@ -1,2 +1,24 @@
-<div class="p">asd</div> 
-<button (click)="close()">close</button>
+<div class="quiz-container">
+    <div class="image" *ngIf="questions[currentIndex].array.length > 1">
+            <div class="array-container">
+                <div class="array-bar" *ngFor="let i of questions[currentIndex].array;"  [ngStyle]="{'height': i*20+'px','background-color':'blue', 'width': 1000/questions[currentIndex].array.length+'px'}">
+                    <span *ngIf="questions[currentIndex].array.length < 34" class="number">{{i}}</span>
+                </div>
+            </div>
+    </div>
+    <div class="question">
+        <p>{{ questions[currentIndex].question }}</p>
+    </div>
+    <div class="answers">
+        <label class="answer"  *ngFor="let option of questions[currentIndex].options" [for]="option">
+            <input type="radio" [id]="option" class="answerInput" [name]="questions[currentIndex].question" [value]="option">
+            <label [for]="option" ></label>
+            <span>{{ option }}</span>
+        </label>
+    </div>
+    <div class="buttons">
+        <button (click)="currentIndex = currentIndex-1">Back</button>
+        <button *ngIf="currentIndex != 4" (click)="checkAnswer()">Next</button>
+        <button (click)="close()">Finish</button>
+    </div>
+</div> 

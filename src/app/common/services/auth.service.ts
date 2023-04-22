@@ -19,7 +19,6 @@ export class AuthService {
     }
   }
   
-
   public register(user: User): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(`${environment.baseUrl}/users/register`, user);
   }

@@ -9,7 +9,7 @@ export class ClassService {
 
   constructor(private readonly http: HttpClient) { }
 
-  createClass(params: any) {
+  createClass(params: any){
     const headers= new HttpHeaders()
                 .set('content-type', 'application/json')
                 .set('Authorization', `${localStorage.getItem('id_token')}`);

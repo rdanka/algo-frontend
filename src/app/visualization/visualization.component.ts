@@ -21,7 +21,7 @@ export class VisualizationComponent {
   NUMBER_OF_ARRAY_BARS = 20;
   PRIMARY_COLOR = '#0080FF';//0080FF
   SECONDARY_COLOR = '#FDDD5C';
-  animationSpeedMs = 50;
+  animationSpeedMs = 500;
   pivotColor = "green";
   numberOfSwaps = 0;
   selectedAlgorithm = new BehaviorSubject('bubble');

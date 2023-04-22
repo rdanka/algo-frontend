@@ -27,11 +27,11 @@ export class LoginComponent {
 
   status = true;
 
-  toggleUser() {
+  toggleUser(): void {
     this.status = !this.status;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.authService.authenticate(this.loginForm.value as User).subscribe({
       next: data => {
         console.log(data)
@@ -49,7 +49,7 @@ export class LoginComponent {
     });
   }
 
-  onStudentSubmit() {
+  onStudentSubmit(): void {
     console.log(this.studentForm.value)
   }
 }

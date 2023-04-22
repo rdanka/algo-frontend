@@ -21,7 +21,7 @@ export class RegisterComponent {
     password: new FormControl('')
   });
 
-  onSubmit() {
+  onSubmit(): void {
     this.authService.register(this.registerForm.value as User).subscribe({
       next: () => {
         this.router.navigate(['/login']);
