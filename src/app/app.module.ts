@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { VisualizationModule } from './visualization/visualization.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { GuardDirective } from './common/directives/guard.directive';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
+    GuardDirective,
   ],
   imports: [
     BrowserModule,

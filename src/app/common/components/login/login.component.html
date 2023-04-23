@@ -3,7 +3,7 @@
 		<form [formGroup]="studentForm" (ngSubmit)="onStudentSubmit()">
 			<h1>Sign in</h1>
 			<span>using your ID</span>
-			<input type="text" placeholder="Neptun ID" />
+			<input type="text" formControlName="neptunId" placeholder="Neptun ID" />
 			<button>Sign In</button>
 		</form>
 	</div>

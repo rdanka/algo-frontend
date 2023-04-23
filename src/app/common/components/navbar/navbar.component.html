@@ -8,12 +8,11 @@
         <li class="avatar">
             <div class="dropdown">
                 <div class="dropdown-content">
-                    <a routerLink="dashboard">Dashboard</a>
-                    <a routerLink="upload">Add Classes</a>
+                    <a routerLink="dashboard" appGuard>Dashboard</a>
+                    <a routerLink="upload" appGuard>Add Classes</a>
                     <a (click)="onLogout()">Logout</a>
                 </div>
             </div>
         </li>
-        
     </ul>
 </nav>

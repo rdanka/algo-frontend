@@ -12,7 +12,7 @@ import { AuthenticateResponse } from '../models/authenticate-response.model';
 export class AuthService {
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   constructor(private readonly http: HttpClient) { 
-    if (localStorage.getItem('user')) {
+    if (localStorage.getItem('user') || localStorage.getItem('neptunId')) {
       this.loggedIn.next(true);
     } else {
       this.loggedIn.next(false);
@@ -29,6 +29,12 @@ export class AuthService {
     );
   }
 
+  public studentLogin(neptunId: string) {
+    return this.http.post<any>(`${environment.baseUrl}/students/login`, {neptunId}).pipe(
+      finalize(() => this.loggedIn.next(true))
+    );
+  }
+
   public logout(): void {
     localStorage.clear();
     this.loggedIn.next(false);
@@ -37,6 +43,10 @@ export class AuthService {
   public storeUserData(accessToken: string, user: User): void {
     localStorage.setItem('id_token', accessToken);
     localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  public storeStudentData(neptunId: string): void {
+    localStorage.setItem('neptunId', neptunId);
   }
 
   public get isLoggedIn(): Observable<boolean> {

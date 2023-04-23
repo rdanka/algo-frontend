@@ -22,7 +22,7 @@ export class LoginComponent {
   });
 
   studentForm = new FormGroup({
-    neptunID: new FormControl(''),
+    neptunId: new FormControl(''),
   });
 
   status = true;
@@ -50,6 +50,22 @@ export class LoginComponent {
   }
 
   onStudentSubmit(): void {
-    console.log(this.studentForm.value)
+      this.authService.studentLogin(this.studentForm.value.neptunId || '').subscribe({
+        next: data => {
+          this.authService.storeStudentData(data.neptunId);
+          this.router.navigate(['/visualization']);
+          this.toastr.success('You are now logged in!', 'Success✅', {
+            progressBar: true,
+            positionClass: 'toast-bottom-right'
+          });
+        },
+        error: error => {
+          console.error(error)
+          this.toastr.error(error.error.msg, 'Error!', {
+            progressBar: true,
+            positionClass: 'toast-bottom-right'
+          })
+        }
+      });
   }
 }
