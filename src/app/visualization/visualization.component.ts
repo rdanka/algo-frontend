@@ -20,6 +20,7 @@ export class VisualizationComponent {
   currentArray: number[] = [12,21];
   NUMBER_OF_ARRAY_BARS = 20;
   PRIMARY_COLOR = '#0080FF';
+  CANVAS_SIZE = 500;
   SECONDARY_COLOR = '#FDDD5C';
   animationSpeedMs = 50;
   pivotColor = "green";
@@ -27,6 +28,7 @@ export class VisualizationComponent {
   selectedAlgorithm = new BehaviorSubject('Bubble Sort');
   isPaused = false;
   currentStep = 0;
+  sizeMultiplier = 5;
   allNumberOfSwaps:number;
 
   constructor() {}
@@ -231,14 +233,21 @@ export class VisualizationComponent {
   selectAlgorithm(algorithm: string): void {
     this.selectedAlgorithm.next(algorithm);
     this.currentArray = generateArray(50);
+    this.setSizeMultiplier(Math.max(...this.currentArray));
   }
 
   onArraySizeChange(size: number): void {
     this.currentArray = generateArray(size);
+    this.setSizeMultiplier(Math.max(...this.currentArray));
   }
 
   onArrayChange(array: number[]): void {
     this.currentArray = array;
+    this.setSizeMultiplier(Math.max(...this.currentArray));
+  }
+
+  setSizeMultiplier(max:number):void {
+    this.sizeMultiplier = this.CANVAS_SIZE / max;
   }
 
   onArraySort(): void {

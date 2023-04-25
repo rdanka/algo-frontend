@@ -10,7 +10,7 @@ export class AlgorithmDetailsComponent implements OnInit {
   selectedAlgorithm: string;
   currentArray: number[];
   arraySize: number;
-
+  isCorrect = true;;
   @ViewChild('arrayInput') arrayInput!: ElementRef;
   @ViewChild('arraySize') arraySizeInput!: ElementRef;
   
@@ -39,6 +39,7 @@ export class AlgorithmDetailsComponent implements OnInit {
   }
 
   generate(): void {
+    if (!this.isCorrect) return;
     const array: number[] = Array.from(this.arrayInput.nativeElement.value.split(',').map(Number));
     this.onArrayChange.emit(array);
     this.arraySizeInput.nativeElement.value = array.length;
@@ -46,5 +47,11 @@ export class AlgorithmDetailsComponent implements OnInit {
 
   open() {
     this.onOpenQuiz.emit();
+  }
+
+  checkArray(input: string): void {
+    const array: number[] = Array.from(input.split(',').map(Number));
+    this.isCorrect = !array.some(isNaN) && array.length > 0 && !array.some((num) => num > 100) && !array.some((num) => num < 1);
+    console.log(array)
   }
 }
