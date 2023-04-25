@@ -1,7 +1,5 @@
-import { SortingAlgorithm } from "./sorting-algorithms.model";
-
 export interface Question {
-    algorithm: SortingAlgorithm,
+    algorithm: string,
     array: number[],
     question: string,
     options: string[],

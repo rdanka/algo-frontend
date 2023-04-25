@@ -17,14 +17,14 @@ export class VisualizationComponent {
   totalSwaps: number;
   currentnumberOfSwaps: number;
   selectedSortType: string;
-  currentArray: number[];
+  currentArray: number[] = [12,21];
   NUMBER_OF_ARRAY_BARS = 20;
-  PRIMARY_COLOR = '#0080FF';//0080FF
+  PRIMARY_COLOR = '#0080FF';
   SECONDARY_COLOR = '#FDDD5C';
-  animationSpeedMs = 500;
+  animationSpeedMs = 50;
   pivotColor = "green";
   numberOfSwaps = 0;
-  selectedAlgorithm = new BehaviorSubject('bubble');
+  selectedAlgorithm = new BehaviorSubject('Bubble Sort');
   isPaused = false;
   currentStep = 0;
   allNumberOfSwaps:number;
@@ -230,6 +230,7 @@ export class VisualizationComponent {
 
   selectAlgorithm(algorithm: string): void {
     this.selectedAlgorithm.next(algorithm);
+    this.currentArray = generateArray(50);
   }
 
   onArraySizeChange(size: number): void {
@@ -245,16 +246,16 @@ export class VisualizationComponent {
     this.numberOfSwaps = 0;
     this.currentStep = 0;
     switch (this.selectedAlgorithm.getValue()) {
-      case 'bubble':
+      case 'Bubble Sort':
         this.bubbleSort();
         break; 
-      case 'quick':
+      case 'Quick Sort':
         this.quickSort();
         break;
-      case 'merge':
+      case 'Merge Sort':
         this.mergeSort();
         break;
-      case 'selection':
+      case 'Selection Sort':
         this.selectionSort();
         break;
       default:
@@ -269,16 +270,16 @@ export class VisualizationComponent {
     if (!this.isPaused) {
       console.log(this.currentStep)
       switch (this.selectedAlgorithm.getValue()) {
-        case 'bubble':
+        case 'Bubble Sort':
           this.bubbleSort();
           break; 
-        case 'quick':
+        case 'Quick Sort':
           this.quickSort();
           break;
-        case 'merge':
+        case 'Merge Sort':
           this.mergeSort();
           break;
-        case 'selection':
+        case 'Selection Sort':
           this.selectionSort();
           break;
         default:

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject } from 'rxjs';
 import { Question } from 'src/app/common/models/question.model';
 import { Quiz } from 'src/app/common/models/quiz.model';
 import { QuizService } from 'src/app/common/services/quiz.service';
+import { ResultService } from 'src/app/common/services/result.service';
 
 @Component({
   selector: 'app-algorithm-quiz',
@@ -12,15 +14,17 @@ import { QuizService } from 'src/app/common/services/quiz.service';
 export class AlgorithmQuizComponent implements OnInit {
   @Input() selectedAlgorithm: BehaviorSubject<string>;
   @Output() onModalClose = new EventEmitter<any>();
-  questions: Question[];
+  questions: Question[] = [];
   currentIndex = 0;
   currentPoints = 0;
 
-  constructor(private readonly quizService: QuizService) { }
+  constructor(private readonly quizService: QuizService, private readonly resultService: ResultService, private readonly toastrService: ToastrService) { }
 
   ngOnInit(): void {
-    this.selectedAlgorithm.subscribe((res) => {
-      this.quizService.getQuizByAlgorithm(res).subscribe((res) => {
+    this.selectedAlgorithm.subscribe((algorithm) => {
+      let algorithmName = algorithm.split(' ')[0].toLocaleLowerCase();
+      this.quizService.getQuizByAlgorithm(algorithmName).subscribe((res) => {
+       console.log(algorithmName)
        this.questions = res.questions;
       });
     });
@@ -39,7 +43,29 @@ export class AlgorithmQuizComponent implements OnInit {
     if (answer.value === this.questions[this.currentIndex].answer) {
       this.currentPoints++;
     }
-    this.currentIndex = 0;  
+     if (localStorage.getItem('neptunId')) {
+      this.resultService.addResult({
+        studentId: localStorage.getItem('neptunId') || '',
+        algorithmName: this.selectedAlgorithm.value,
+        result: this.currentPoints / this.questions.length * 100
+      }).subscribe(data => {
+        if ((this.currentPoints / this.questions.length * 100) >= 50) {
+          this.toastrService.success(`You have scored ${this.currentPoints / this.questions.length * 100}%!`, 'You did great!', {
+            progressBar: true,
+            positionClass: 'toast-bottom-right'
+          });
+
+        } else {
+          this.toastrService.error(`You have scored ${this.currentPoints / this.questions.length * 100}%!`, 'Why not try again?', {
+            progressBar: true,
+            positionClass: 'toast-bottom-right'
+          });
+        }
+        
+        this.currentPoints = 0;
+      });
+    } 
+    this.currentIndex = 0; 
     this.onModalClose.emit();
   }
 }

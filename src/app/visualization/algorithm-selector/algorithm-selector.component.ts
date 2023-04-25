@@ -6,7 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./algorithm-selector.component.scss']
 })
 export class AlgorithmSelectorComponent {
-  active = 'bubble';
+  active = 'Bubble Sort';
   @Output() onAlgorithmSelected = new EventEmitter<string>();
 
   constructor() {}
