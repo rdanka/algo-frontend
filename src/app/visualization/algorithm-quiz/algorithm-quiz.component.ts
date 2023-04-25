@@ -14,7 +14,13 @@ import { ResultService } from 'src/app/common/services/result.service';
 export class AlgorithmQuizComponent implements OnInit {
   @Input() selectedAlgorithm: BehaviorSubject<string>;
   @Output() onModalClose = new EventEmitter<any>();
-  questions: Question[] = [];
+  questions: Question[] = [{
+    algorithm: '',
+    array: [],
+    question: '',
+    options: [],
+    answer: ''
+  }];
   currentIndex = 0;
   currentPoints = 0;
 
@@ -40,6 +46,7 @@ export class AlgorithmQuizComponent implements OnInit {
 
   close(): void {
     const answer = document.querySelector('input[class="answerInput"]:checked') as HTMLInputElement;
+    console.log(answer.value);
     if (answer.value === this.questions[this.currentIndex].answer) {
       this.currentPoints++;
     }
@@ -61,10 +68,15 @@ export class AlgorithmQuizComponent implements OnInit {
             positionClass: 'toast-bottom-right'
           });
         }
-        
+        console.log(this.currentPoints);
         this.currentPoints = 0;
       });
-    } 
+    } else {
+      this.toastrService.info('You need to be logged in as a student to save the result!', 'Test completed!', {
+        progressBar: true,
+        positionClass: 'toast-bottom-right'
+      });
+    }
     this.currentIndex = 0; 
     this.onModalClose.emit();
   }

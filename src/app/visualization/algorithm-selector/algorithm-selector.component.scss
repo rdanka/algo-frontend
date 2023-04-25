@@ -25,11 +25,12 @@
             color: #742CDF;
             cursor: pointer;
             padding: .5rem;
+            border-radius: 5px;
             margin: .2rem;
 
             &:hover {
                 background-color: rgba(116, 44, 223, 0.2196078431);
-                
+                border-radius: 5px;
                 color: #fff;
             }
 

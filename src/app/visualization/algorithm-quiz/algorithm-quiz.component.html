@@ -7,18 +7,17 @@
             </div>
     </div>
     <div class="question">
-        <p>{{ questions[currentIndex]?.question }}</p>
+        <p>{{ questions[currentIndex].question }}</p>
     </div>
     <div class="answers">
         <label class="answer"  *ngFor="let option of questions[currentIndex]?.options" [for]="option">
-            <input type="radio" [id]="option" class="answerInput" [name]="questions[currentIndex]?.question" [value]="option">
+            <input type="radio" [id]="option" class="answerInput" [name]="questions[currentIndex].question" [value]="option">
             <label [for]="option" ></label>
             <span>{{ option }}</span>
         </label>
     </div>
     <div class="buttons">
-        <button (click)="currentIndex = currentIndex-1">Back</button>
         <button *ngIf="currentIndex != 4" (click)="checkAnswer()">Next</button>
-        <button (click)="close()">Finish</button>
+        <button *ngIf="currentIndex === 4" (click)="close()">Finish</button>
     </div>
 </div> 
