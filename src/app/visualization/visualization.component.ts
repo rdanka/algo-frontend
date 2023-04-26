@@ -69,8 +69,8 @@ export class VisualizationComponent {
             barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
             barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
             resolve();
-            barOneStyle.style.height = `${v2}px`;
-            barTwoStyle.style.height = `${v4}px`;
+            barOneStyle.style.height = `${v2 * this.sizeMultiplier}px`;
+            barTwoStyle.style.height = `${v4 * this.sizeMultiplier}px`;
             if (this.currentArray.length < 34) {
               barOneStyle.children[0].innerHTML = v2;
               barTwoStyle.children[0].innerHTML = v4;
@@ -155,7 +155,7 @@ export class VisualizationComponent {
         setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
           const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-          barOneStyle.style.height = `${newHeight}px`;
+          barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
           if (this.currentArray.length < 34) {
             barOneStyle.children[0].innerHTML = newHeight;
           }
@@ -219,8 +219,8 @@ export class VisualizationComponent {
         const barTwoeStyle = <HTMLElement>arrayBars[barIndexTwo];
 
         setTimeout(() => {
-          barOneStyle.style.height = `${barValueOne}px`;
-          barTwoeStyle.style.height = `${barValueTwo}px`;
+          barOneStyle.style.height = `${barValueOne * this.sizeMultiplier}px`;
+          barTwoeStyle.style.height = `${barValueTwo * this.sizeMultiplier}px`;
           this.numberOfSwaps++;
          }, i * this.animationSpeedMs);
 
@@ -234,20 +234,34 @@ export class VisualizationComponent {
     this.selectedAlgorithm.next(algorithm);
     this.currentArray = generateArray(50);
     this.setSizeMultiplier(Math.max(...this.currentArray));
+    this.resetCanvas();
   }
 
   onArraySizeChange(size: number): void {
     this.currentArray = generateArray(size);
     this.setSizeMultiplier(Math.max(...this.currentArray));
+    this.resetCanvas();
   }
 
   onArrayChange(array: number[]): void {
     this.currentArray = array;
     this.setSizeMultiplier(Math.max(...this.currentArray));
+    this.resetCanvas();
   }
 
   setSizeMultiplier(max:number):void {
     this.sizeMultiplier = this.CANVAS_SIZE / max;
+  }
+
+  resetCanvas(): void {
+    let highestTimeoutId = setTimeout(";");
+    for (var i = 0 ; i < highestTimeoutId ; i++) {
+        clearTimeout(i); 
+    }
+    this.currentStep = 0;
+    this.numberOfSwaps = 0;
+    this.allNumberOfSwaps = 0;
+    this.isPaused = false;
   }
 
   onArraySort(): void {
