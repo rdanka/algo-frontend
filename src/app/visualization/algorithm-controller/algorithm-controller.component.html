@@ -1,6 +1,6 @@
 <div class="controller-container">
     <div class="stop">
-        <div class="play" *ngIf="isPaused">
+        <div class="play" *ngIf="isPaused || currentNumberOfSwaps === 0">
             <i class="fa-solid fa-play play-button" (click)="togglePause()"></i>
             <span > Play</span>
         </div>
@@ -8,7 +8,7 @@
             <i class="fa-solid fa-pause play-button" (click)="togglePause()"></i>
             <span>Pause</span>
         </div>
-        <div *ngIf="currentNumberOfSwaps === totalSwaps">
+        <div *ngIf="currentNumberOfSwaps === totalSwaps && currentNumberOfSwaps !== 0">
             <i class="fa-solid fa-repeat play-button" (click)="replay()"></i>
             <span>Replay</span>
         </div>

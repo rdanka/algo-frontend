@@ -14,22 +14,17 @@ import { animateSelectionSort } from './algorithms/selection-sort-animation';
 })
 export class VisualizationComponent {
 
-  totalSwaps: number;
-  currentnumberOfSwaps: number;
-  selectedSortType: string;
-  currentArray: number[] = [12,21];
-  NUMBER_OF_ARRAY_BARS = 20;
+  currentArray: number[];
   PRIMARY_COLOR = '#0080FF';
   CANVAS_SIZE = 500;
   SECONDARY_COLOR = '#FDDD5C';
   animationSpeedMs = 50;
-  pivotColor = "green";
   numberOfSwaps = 0;
   selectedAlgorithm = new BehaviorSubject('Bubble Sort');
   isPaused = false;
   currentStep = 0;
   sizeMultiplier = 5;
-  allNumberOfSwaps:number;
+  allNumberOfSwaps: number;
 
   constructor() {}
 
@@ -95,6 +90,7 @@ export class VisualizationComponent {
       let sortedAnimations = animateSelectionSort(this.currentArray);
       let arrayBars = document.getElementsByClassName('array-bar');
       
+      this.allNumberOfSwaps = sortedAnimations.filter((array: any) => array[0] === "Swap").length;
       for (const element of sortedAnimations) {
         const [action, index1, index2] = element;
     
@@ -123,8 +119,7 @@ export class VisualizationComponent {
           [barOneStyle.style.height, barTwoStyle.style.height] = [barTwoStyle.style.height, barOneStyle.style.height];
 
           if (this.currentArray.length < 34) {
-            barOneStyle.children[0].innerHTML = barOneStyle.style.height.slice(0,-2);
-            barTwoStyle.children[0].innerHTML = barTwoStyle.style.height.slice(0,-2);
+            [ barOneStyle.children[0].innerHTML, barTwoStyle.children[0].innerHTML ] = [ barTwoStyle.children[0].innerHTML, barOneStyle.children[0].innerHTML ]
           } 
     
           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
@@ -138,8 +133,7 @@ export class VisualizationComponent {
   mergeSort(){
     const arrayBars = document.getElementsByClassName('array-bar');
     let animations = getMergeSortAnimations(this.currentArray);
-    this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "Swap").length;
-    console.log(this.allNumberOfSwaps)
+    this.allNumberOfSwaps = animations.length / 3;
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
@@ -159,7 +153,7 @@ export class VisualizationComponent {
           if (this.currentArray.length < 34) {
             barOneStyle.children[0].innerHTML = newHeight;
           }
-          this.currentStep++;
+          this.numberOfSwaps++;
         }, i * this.animationSpeedMs);
       }
       this.currentStep++;
@@ -167,72 +161,69 @@ export class VisualizationComponent {
    }
 
 
-   quickSort(){
+   quickSort() {
     let arrayBars = document.getElementsByClassName('array-bar');
     let animations = getAnimationsForQuickSort(this.currentArray);
     this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "swap").length;
-    for(let i = 0; i< animations.length; i++)
-    {
+    console.log(animations);
+    for(let i = 0; i< animations.length; i++) {
       let check = animations[i][0];
-      if(check === "pivoton")
-      {
+      if(check === "pivoton") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
         setTimeout(() => {
          barPivotStyle.style.backgroundColor = 'red';
         }, i * this.animationSpeedMs);
       }
-      else if(check === "highLighton")
-      {
+      else if(check === "highLighton") {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoeStyle = <HTMLElement>arrayBars[barTwoIdx];
+        const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
 
         setTimeout(() => {
           barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-          barTwoeStyle.style.backgroundColor = this.SECONDARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
          }, i * this.animationSpeedMs);
       }
-      else if(check === "highLightoff")
-      {
+      else if(check === "highLightoff") {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoeStyle = <HTMLElement>arrayBars[barTwoIdx];
+        const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
 
         setTimeout(() => {
           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
-          barTwoeStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
          }, i * this.animationSpeedMs);
       }
-      else if(check === "pivotOff")
-      {
+      else if(check === "pivotOff") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
         setTimeout(() => {
          barPivotStyle.style.backgroundColor = this.PRIMARY_COLOR;
         }, i * this.animationSpeedMs);
       }
-      else if(check === "swap")
-      {
+      else if(check === "swap") {
         const [barIndexOne,barValueOne,barIndexTwo,barValueTwo] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
-        const barTwoeStyle = <HTMLElement>arrayBars[barIndexTwo];
-
+        const barTwoStyle = <HTMLElement>arrayBars[barIndexTwo];
+        console.log(barValueOne,barValueTwo);
         setTimeout(() => {
-          barOneStyle.style.height = `${barValueOne * this.sizeMultiplier}px`;
-          barTwoeStyle.style.height = `${barValueTwo * this.sizeMultiplier}px`;
           this.numberOfSwaps++;
-         }, i * this.animationSpeedMs);
-
+          if (this.currentArray.length < 34) {
+            barOneStyle.children[0].innerHTML = barValueOne;
+            barTwoStyle.children[0].innerHTML = barValueTwo;
+          }
+          barOneStyle.style.height = `${barValueOne * this.sizeMultiplier}px`;
+          barTwoStyle.style.height = `${barValueTwo * this.sizeMultiplier}px`;
+        }, i * this.animationSpeedMs);
       }
       this.currentStep++;
     }
-
    }
 
   selectAlgorithm(algorithm: string): void {
     this.selectedAlgorithm.next(algorithm);
-    this.currentArray = generateArray(50);
+    this.currentArray = generateArray(this.currentArray.length);
     this.setSizeMultiplier(Math.max(...this.currentArray));
     this.resetCanvas();
   }

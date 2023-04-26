@@ -1,8 +1,9 @@
-
 let animations: any = [];
 
 export function getAnimationsForQuickSort(array: number[]) {
   let newArray = array.slice();
+  console.log(newArray);
+  console.log(array)
    quickSort(0,newArray.length,newArray);
    let tempArray = animations.slice();
    animations = [];
@@ -21,38 +22,35 @@ function quickSort(low: number,high:number ,array: number[]) {
   return array;
 }
 
-function partation(low:number,high: number,unsortedArray: number[])
-{
+function partation(low:number,high: number,unsortedArray: number[]) {
   let pivote = unsortedArray[low];
   animations.push(["pivoton",low]);
   let i = low;
   let j = high;
 
-  while(i < j)
-  {
-    do
-    {
+  while(i < j) {
+    do {
       i++;
     }while(unsortedArray[i] <= pivote);
 
-    do{
+    do {
       j--;
-    }while(unsortedArray[j] > pivote);
+    } while(unsortedArray[j] > pivote);
 
-    if(i < j)
-    {
+    if(i < j) {
       swap(i,j,unsortedArray);
       //Logic for animating highlihts and swaping
-      animations.push(["highLighton",i,j]);
-      animations.push(["highLightoff",i,j]);
-      animations.push(["swap",i,j]);
+      //animations.push(["highLighton",i,j]);
+      //animations.push(["swap",i,j]);
+      //animations.push(["highLightoff",i,j]);
     }
 
   }
+
   swap(low,j,unsortedArray);
   animations.push(["highLighton",low,j]);
-  animations.push(["highLightoff",low,j]);
   animations.push(["swap",low,unsortedArray[low],j,unsortedArray[j]]);
+  animations.push(["highLightoff",low,j]);
   animations.push(["pivotOff",low]);
   return j;
 }
