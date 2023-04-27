@@ -12,7 +12,7 @@ import { ResultService } from 'src/app/common/services/result.service';
   styleUrls: ['./algorithm-quiz.component.scss']
 })
 export class AlgorithmQuizComponent implements OnInit {
-  @Input() selectedAlgorithm: BehaviorSubject<string>;
+  @Input() selectedAlgorithm = new BehaviorSubject<string>('bubble');
   @Output() onModalClose = new EventEmitter<any>();
   questions: Question[] = [{
     algorithm: '',

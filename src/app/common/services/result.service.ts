@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/enviroment';
 import { Result } from '../models/result.model';
 
@@ -27,7 +27,7 @@ export class ResultService {
     return this.http.get<any>(`${environment.baseUrl}/results/getByClassId?className=${className}`, { headers });
   }
 
-  addResult(params: Result) {
+  addResult(params: Result): Observable<any> {
     return this.http.post<any>(`${environment.baseUrl}/results/add`, params);
   }
 }
