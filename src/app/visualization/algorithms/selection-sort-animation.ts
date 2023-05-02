@@ -8,7 +8,7 @@ export function animateSelectionSort(array: any) {
   return tempAnimations;
 }
 
-function selectionSort(array: any) {
+function selectionSort(array: number[]) {
   let arrayLength = array.length;
   for(let i = 0; i < arrayLength - 1; i++) {
     let minIndex = i;

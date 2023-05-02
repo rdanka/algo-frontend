@@ -30,7 +30,6 @@ export class AlgorithmQuizComponent implements OnInit {
     this.selectedAlgorithm.subscribe((algorithm) => {
       let algorithmName = algorithm.split(' ')[0].toLocaleLowerCase();
       this.quizService.getQuizByAlgorithm(algorithmName).subscribe((res) => {
-       console.log(algorithmName)
        this.questions = res.questions;
       });
     });
@@ -46,7 +45,6 @@ export class AlgorithmQuizComponent implements OnInit {
 
   close(): void {
     const answer = document.querySelector('input[class="answerInput"]:checked') as HTMLInputElement;
-    console.log(answer.value);
     if (answer.value === this.questions[this.currentIndex].answer) {
       this.currentPoints++;
     }
@@ -68,7 +66,6 @@ export class AlgorithmQuizComponent implements OnInit {
             positionClass: 'toast-bottom-right'
           });
         }
-        console.log(this.currentPoints);
         this.currentPoints = 0;
       });
     } else {

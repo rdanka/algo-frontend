@@ -40,28 +40,7 @@ export class ResultsComponent {
         });
       })
     } else if (this.viewToggle === 'class') {
-      console.log(this._className)
       this.resultService.getResultsByClassId(this._className).subscribe(data => this.classData = data)
     }
   }
-  
-  /* 
-  [
-    {
-        "_id": "6432dd507a4d237f863db48f",
-        "algorithmName": "bubble",
-        "classId": "643147ad0b9086c077deaa57",
-        "studentId": "UQUJKG",
-        "__v": 0,
-        "result": 5
-    },
-    {
-        "_id": "6432dd547a4d237f863db495",
-        "algorithmName": "quick",
-        "classId": "643147ad0b9086c077deaa57",
-        "studentId": "UQUJKG",
-        "__v": 0,
-        "result": 5
-    }
-] */
 }

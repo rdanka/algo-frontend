@@ -2,8 +2,6 @@ let animations: any = [];
 
 export function getAnimationsForQuickSort(array: number[]) {
   let newArray = array.slice();
-  console.log(newArray);
-  console.log(array)
    quickSort(0,newArray.length,newArray);
    let tempArray = animations.slice();
    animations = [];
@@ -11,51 +9,46 @@ export function getAnimationsForQuickSort(array: number[]) {
 }
 
 function quickSort(low: number,high:number ,array: number[]) {
-  //Checking If low is less than High or not
   if(low < high) {
-    // Make partation in which on left side all the smaller elemnts of partation and on the right hand side all the greater elements
-    let j = partation(low,high,array);
-    // Divinding the array with pivote taken as a partation
+    // Make partition in which on left side all the smaller elemnts of partition and on the right hand side all the greater elements
+    let j = partition(low,high,array);
+    // Divinding the array with pivot taken as a partition
     quickSort(low,j,array);
     quickSort(j+1,high,array);
   }
   return array;
 }
 
-function partation(low:number,high: number,unsortedArray: number[]) {
-  let pivote = unsortedArray[low];
-  animations.push(["pivoton",low]);
+function partition(low:number,high: number,unsortedArray: number[]) {
+  let pivot = unsortedArray[low];
+  animations.push(["PivotOn",low]);
   let i = low;
   let j = high;
 
   while(i < j) {
     do {
       i++;
-    }while(unsortedArray[i] <= pivote);
+    } while(unsortedArray[i] <= pivot);
 
     do {
       j--;
-    } while(unsortedArray[j] > pivote);
+    } while(unsortedArray[j] > pivot);
 
     if(i < j) {
       swap(i,j,unsortedArray);
-      //Logic for animating highlihts and swaping
-      //animations.push(["highLighton",i,j]);
-      //animations.push(["swap",i,j]);
-      //animations.push(["highLightoff",i,j]);
     }
 
   }
 
   swap(low,j,unsortedArray);
-  animations.push(["highLighton",low,j]);
-  animations.push(["swap",low,unsortedArray[low],j,unsortedArray[j]]);
-  animations.push(["highLightoff",low,j]);
-  animations.push(["pivotOff",low]);
+  animations.push(["HighLightOn",low,j]);
+  animations.push(["Swap",low,unsortedArray[low],j,unsortedArray[j]]);
+  animations.push(["HighLightOff",low,j]);
+  animations.push(["PivotOff",low]);
   return j;
 }
 
-function swap(i: number,j: number,unsortedArray: number[]) {
+function swap(i: number,j: number, unsortedArray: number[]) {
   let temp = unsortedArray[i];
   unsortedArray[i] = unsortedArray[j];
   unsortedArray[j] = temp;

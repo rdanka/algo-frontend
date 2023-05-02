@@ -15,6 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { VisualizationModule } from './visualization/visualization.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GuardDirective } from './common/directives/guard.directive';
+import { TeacherGuard } from './common/guards/teacher.guard';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { GuardDirective } from './common/directives/guard.directive';
     VisualizationModule,
     DashboardModule
   ],
-  providers: [ AuthService ],
+  providers: [ AuthService, TeacherGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

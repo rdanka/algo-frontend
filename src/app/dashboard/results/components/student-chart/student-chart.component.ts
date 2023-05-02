@@ -19,8 +19,6 @@ export class StudentChartComponent implements OnChanges  {
 }
 
   createChart(){
-    console.log(this.labels)
-    console.log(this.data)
       this.chart = new Chart("studentChart", {
       type: 'bar',
 

@@ -34,7 +34,6 @@ export class LoginComponent {
   onSubmit(): void {
     this.authService.authenticate(this.loginForm.value as User).subscribe({
       next: data => {
-        console.log(data)
         this.authService.storeUserData(data.accessToken, data.user);
         this.router.navigate(['/visualization']);
         this.toastr.success('You are now logged in!', 'Success✅', {

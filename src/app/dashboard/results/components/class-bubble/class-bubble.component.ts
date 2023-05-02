@@ -15,7 +15,6 @@ export class ClassBubbleComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.chart)  this.chart.destroy();
     if (changes['data'].currentValue) {
-      console.log(changes['data'])
       this.createChart()
     }
 }

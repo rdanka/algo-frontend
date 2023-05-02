@@ -164,18 +164,17 @@ export class VisualizationComponent {
    quickSort() {
     let arrayBars = document.getElementsByClassName('array-bar');
     let animations = getAnimationsForQuickSort(this.currentArray);
-    this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "swap").length;
-    console.log(animations);
+    this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "Swap").length;
     for(let i = 0; i< animations.length; i++) {
       let check = animations[i][0];
-      if(check === "pivoton") {
+      if(check === "PivotOn") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
         setTimeout(() => {
          barPivotStyle.style.backgroundColor = 'red';
         }, i * this.animationSpeedMs);
       }
-      else if(check === "highLighton") {
+      else if(check === "HighLightOn") {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
         const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
@@ -185,7 +184,7 @@ export class VisualizationComponent {
           barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
          }, i * this.animationSpeedMs);
       }
-      else if(check === "highLightoff") {
+      else if(check === "HighLightOff") {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
         const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
@@ -195,18 +194,17 @@ export class VisualizationComponent {
           barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
          }, i * this.animationSpeedMs);
       }
-      else if(check === "pivotOff") {
+      else if(check === "PivotOff") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
         setTimeout(() => {
          barPivotStyle.style.backgroundColor = this.PRIMARY_COLOR;
         }, i * this.animationSpeedMs);
       }
-      else if(check === "swap") {
+      else if(check === "Swap") {
         const [barIndexOne,barValueOne,barIndexTwo,barValueTwo] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
         const barTwoStyle = <HTMLElement>arrayBars[barIndexTwo];
-        console.log(barValueOne,barValueTwo);
         setTimeout(() => {
           this.numberOfSwaps++;
           if (this.currentArray.length < 34) {
@@ -282,7 +280,6 @@ export class VisualizationComponent {
   onPause(): void {
     this.isPaused = !this.isPaused;
     if (!this.isPaused) {
-      console.log(this.currentStep)
       switch (this.selectedAlgorithm.getValue()) {
         case 'Bubble Sort':
           this.bubbleSort();

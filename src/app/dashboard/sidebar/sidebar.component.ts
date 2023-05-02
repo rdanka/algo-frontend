@@ -27,7 +27,6 @@ export class SidebarComponent implements OnInit {
     const el: HTMLElement= event.target as HTMLElement; 
      el.closest('li')!.classList.toggle('active-class');
     if (el.closest('li')!.classList.contains('student')) {
-      console.log(el.closest('li')!.innerText)
       this.onIdChange.emit(el.closest('li')!.innerText);
     } else {
       this.onClassChange.emit(className);
@@ -35,7 +34,6 @@ export class SidebarComponent implements OnInit {
   }
 
   changeClass(className: string) {
-    console.log(className)
     this.onClassChange.emit(className);
   }
 
