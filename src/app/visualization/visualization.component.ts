@@ -35,7 +35,7 @@ export class VisualizationComponent {
       let arrayBars = document.getElementsByClassName('array-bar');
       for(let i = this.currentStep; i < animations.length; i++) {
         if(this.isPaused) {
-        break; 
+          break; 
         }
         const [check,v1,v2,v3,v4] = animations[i];
         if(check === "HighLightOn") {
@@ -87,11 +87,16 @@ export class VisualizationComponent {
     }
 
     async selectionSort() {
-      let sortedAnimations = animateSelectionSort(this.currentArray);
+      let animations = animateSelectionSort(this.currentArray);
       let arrayBars = document.getElementsByClassName('array-bar');
       
-      this.allNumberOfSwaps = sortedAnimations.filter((array: any) => array[0] === "Swap").length;
-      for (const element of sortedAnimations) {
+      this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "Swap").length;
+      for (let i = this.currentStep; i < animations.length; i++) {
+        if(this.isPaused) {
+          break; 
+        }
+
+        const element  =  animations[i];
         const [action, index1, index2] = element;
     
         if (action === "Comparison") {
@@ -130,7 +135,7 @@ export class VisualizationComponent {
       }
     }
     
-  mergeSort(){
+  async mergeSort(){
     const arrayBars = document.getElementsByClassName('array-bar');
     let animations = getMergeSortAnimations(this.currentArray);
     this.allNumberOfSwaps = animations.length / 3;
@@ -141,12 +146,13 @@ export class VisualizationComponent {
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
         const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
         const color = i % 3 === 0 ? this.SECONDARY_COLOR : this.PRIMARY_COLOR;
-        setTimeout(() => {
+        await new Promise<void>((resolve,reject)  => setTimeout(() => {
           barOneStyle.style.backgroundColor = color;
           barTwoStyle.style.backgroundColor = color;
-        }, i * this.animationSpeedMs);
+          resolve();
+        }, this.animationSpeedMs));
       } else {
-        setTimeout(() => {
+        await new Promise<void>((resolve,reject)  => setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
           const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
           barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
@@ -154,14 +160,15 @@ export class VisualizationComponent {
             barOneStyle.children[0].innerHTML = newHeight;
           }
           this.numberOfSwaps++;
-        }, i * this.animationSpeedMs);
+          resolve();
+        }, this.animationSpeedMs));
       }
       this.currentStep++;
     }
    }
 
 
-   quickSort() {
+   async quickSort() {
     let arrayBars = document.getElementsByClassName('array-bar');
     let animations = getAnimationsForQuickSort(this.currentArray);
     this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "Swap").length;
@@ -170,42 +177,48 @@ export class VisualizationComponent {
       if(check === "PivotOn") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
-        setTimeout(() => {
+
+        await new Promise<void>( (resolve,reject)  => setTimeout(() => {
          barPivotStyle.style.backgroundColor = 'red';
-        }, i * this.animationSpeedMs);
+         resolve();
+        }, this.animationSpeedMs));
+        
       }
       else if(check === "HighLightOn") {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
         const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
 
-        setTimeout(() => {
+        await new Promise<void>( (resolve,reject)  => setTimeout(() => {
           barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
           barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
-         }, i * this.animationSpeedMs);
+          resolve();
+        }, this.animationSpeedMs));
       }
       else if(check === "HighLightOff") {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
         const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
 
-        setTimeout(() => {
+        await new Promise<void>( (resolve,reject)  => setTimeout(() => {
           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
           barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
-         }, i * this.animationSpeedMs);
+          resolve();
+        }, this.animationSpeedMs));
       }
       else if(check === "PivotOff") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
-        setTimeout(() => {
+        await new Promise<void>( (resolve,reject)  => setTimeout(() => {
          barPivotStyle.style.backgroundColor = this.PRIMARY_COLOR;
-        }, i * this.animationSpeedMs);
+         resolve();
+        }, this.animationSpeedMs));
       }
       else if(check === "Swap") {
         const [barIndexOne,barValueOne,barIndexTwo,barValueTwo] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
         const barTwoStyle = <HTMLElement>arrayBars[barIndexTwo];
-        setTimeout(() => {
+        await new Promise<void>((resolve,reject)  => setTimeout(() => {
           this.numberOfSwaps++;
           if (this.currentArray.length < 34) {
             barOneStyle.children[0].innerHTML = barValueOne;
@@ -213,7 +226,8 @@ export class VisualizationComponent {
           }
           barOneStyle.style.height = `${barValueOne * this.sizeMultiplier}px`;
           barTwoStyle.style.height = `${barValueTwo * this.sizeMultiplier}px`;
-        }, i * this.animationSpeedMs);
+        resolve();
+        }, this.animationSpeedMs));
       }
       this.currentStep++;
     }
