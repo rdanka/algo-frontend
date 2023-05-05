@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ClassService } from 'src/app/common/services/class.service';
 
@@ -14,13 +14,12 @@ export class UploadComponent {
   studentList: string[];
 
   classForm = new FormGroup({
-    className: new FormControl(''),
-    studentList: new FormControl<string[]>([])
+    className: new FormControl('', [Validators.required]),
+    studentList: new FormControl<string[]>([], [Validators.required])
   });
-
+  
   constructor(private readonly classService: ClassService, private readonly toastService: ToastrService) {}
 
-  
 
   public onChange(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -42,6 +41,14 @@ export class UploadComponent {
 
   submit(): void {
     console.log(this.classForm.value)
+    if (this.classForm.controls.className.invalid) {
+      this.toastService.error('Class name is required!', 'Error!');
+      return;
+    }
+    if (this.classForm.controls.studentList.invalid) {
+      this.toastService.error('Student list is required!', 'Error!');
+      return;
+    }
     this.classService.createClass(this.classForm.value).subscribe({
       next: () => this.toastService.success('Class was added!', 'Succes!'),
       error: (err) => this.toastService.error(`${err.error}`, 'Error!'),

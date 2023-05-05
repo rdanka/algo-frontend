@@ -14,12 +14,12 @@
         </div>
     </div>
     <div class="steps">
-        <i class="fa-solid fa-step-backward"></i>
+        <i class="fa-solid fa-step-backward" (click)="stepBack()" *ngIf="currentNumberOfSwaps !== 0 && isPaused"></i>
         <div class="step-counter">
             <span class="progress" [ngStyle]="{'width': (currentNumberOfSwaps / (totalSwaps / 100))  + '%' }"></span>
             {{ currentNumberOfSwaps }} / {{ totalSwaps || 0 }}
         </div>
-        <i class="fa-solid fa-step-forward"></i>
+        <i class="fa-solid fa-step-forward" (click)="stepForward()" *ngIf="currentNumberOfSwaps !== 0 && isPaused"></i>
     </div>
     <div class="speed">
         <input type="range" min="0" max="300" step="10" #speed class="slider" (input)="onSpeedChange(speed.value)"> <span>{{ speed.value }}ms</span>

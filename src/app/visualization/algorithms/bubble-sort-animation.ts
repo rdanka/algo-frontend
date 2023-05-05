@@ -15,7 +15,7 @@ function bubbleSort(array: number[]) {
       animations.push(["HighLightOn",j,j+1]);
       if(array[j] > array[j+1]) {
         [array[j], array[j+1]] = [array[j+1], array[j]];
-        animations.push(["Swap",j,array[j],j+1,array[j+1]]);
+        animations.push(["Swap",j,j+1,array[j],array[j+1]]);
       } else {
         animations.push(["Correct",j,j+1]);
       }

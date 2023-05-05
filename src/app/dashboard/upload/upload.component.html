@@ -5,10 +5,10 @@
         <p>Class name:</p>
     <input type="text" formControlName="className" placeholder="Type class name here..." required>
     <p>Student IDs:</p>
-    <label for="list" class="drop-container">
+    <label for="list" class="drop-container" >
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" (change)="onChange($event)" required>
+        <input id="list" type="file"  (change)="onChange($event)" required>
     </label>
     <button class="upload-button">Create Class</button>
     </form>

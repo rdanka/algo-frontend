@@ -13,6 +13,8 @@ export class AlgorithmControllerComponent {
   @Input() currentNumberOfSwaps: number = 0;
   @Output() onPause = new EventEmitter<boolean>();
   @Output() onRepeat = new EventEmitter<void>();
+  @Output() onStepBack = new EventEmitter<void>();
+  @Output() onStepForward = new EventEmitter<void>();
   @Output() onSpeed = new EventEmitter<number>();
 
   togglePause(): void {
@@ -29,6 +31,12 @@ export class AlgorithmControllerComponent {
     this.onSpeed.emit(parseInt(speedMs));
   }
 
-  
+  stepBack(): void {
+    this.onStepBack.emit();
+  }
+
+  stepForward(): void {
+    this.onStepForward.emit();
+  }
 }
 
