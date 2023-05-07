@@ -38,7 +38,7 @@ export class VisualizationComponent {
       let arrayBars = document.getElementsByClassName('array-bar');
       for(let i = this.currentStep; i < animations.length; i++) {
         const [action,barOneIndex,barTwoIndex,barOneValue,barTwoValue] = animations[i];
-        if(action === "HighLightOn") {
+        if((action === "HighLightOn" && !this.isStepBack) || (action === "HighLightOff" && this.isStepBack)) {
           let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
           let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
           
@@ -47,8 +47,8 @@ export class VisualizationComponent {
               barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
               resolve();
             }, this.animationSpeedMs));
-          
-        } else if(action === "HighLightOff") {
+            
+        } else if((action === "HighLightOff" && !this.isStepBack) || (action === "HighLightOn" && this.isStepBack)) {
           let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
           let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
           
@@ -57,24 +57,19 @@ export class VisualizationComponent {
             barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
             resolve();
           }, this.animationSpeedMs));
-        
         } else if(action === "Swap") {
           let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
           let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
 
           await new Promise<void>( resolve => setTimeout(() => {
-            barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-            barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
+            barOneStyle.style.height = `${(this.isStepBack ? barTwoValue : barOneValue) * this.sizeMultiplier}px`;
+            barTwoStyle.style.height = `${(this.isStepBack ? barOneValue: barTwoValue) * this.sizeMultiplier}px`;
+            if (this.currentArray.length < 34) {
+              barOneStyle.children[0].innerHTML = this.isStepBack ? barTwoValue : barOneValue;
+              barTwoStyle.children[0].innerHTML = this.isStepBack ? barOneValue : barTwoValue;
+            }
+            this.numberOfSwaps = this.isStepBack ? this.numberOfSwaps - 1 : this.numberOfSwaps + 1;
             resolve();
-            
-              barOneStyle.style.height = `${barOneValue * this.sizeMultiplier}px`;
-              barTwoStyle.style.height = `${barTwoValue * this.sizeMultiplier}px`;
-              if (this.currentArray.length < 34) {
-                barOneStyle.children[0].innerHTML = barOneValue;
-                barTwoStyle.children[0].innerHTML = barTwoValue;
-              }
-              this.numberOfSwaps++;
-          
           }, this.animationSpeedMs));
         } else if (action === "Correct") {
           let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
@@ -86,12 +81,17 @@ export class VisualizationComponent {
           resolve();
           }, this.animationSpeedMs));
         }
+
+        this.currentStep = this.isStepBack ? this.currentStep - 1 : this.currentStep + 1;
+      
+        this.isStepBack = false;
         if(this.isPaused) {
           break; 
         }
-        this.currentStep++;
+          
+        
       }
-    }
+    } 
 
     async selectionSort() {
       let animations = animateSelectionSort(this.currentArray);
@@ -147,6 +147,7 @@ export class VisualizationComponent {
     const arrayBars = document.getElementsByClassName('array-bar');
     let animations = getMergeSortAnimations(this.currentArray);
     this.allNumberOfSwaps = animations.length / 3;
+    console.log(animations)
     for (let i = this.currentStep; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
@@ -161,10 +162,12 @@ export class VisualizationComponent {
         }, this.animationSpeedMs));
       } else {
         await new Promise<void>((resolve,reject)  => setTimeout(() => {
-          const [barOneIdx, newHeight] = animations[i];
+          const [barOneIdx, newHeight, oldIdx] = animations[i];
           const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+          const barTwoStyle = <HTMLElement>arrayBars[oldIdx];
           barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
           if (this.currentArray.length < 34) {
+           // barTwoStyle.children[0].innerHTML = barOneStyle.children[0].innerHTML;
             barOneStyle.children[0].innerHTML = newHeight;
           }
           this.numberOfSwaps++;
@@ -177,7 +180,6 @@ export class VisualizationComponent {
       this.currentStep++;
     }
    }
-
 
    async quickSort() {
     let arrayBars = document.getElementsByClassName('array-bar');
@@ -226,7 +228,7 @@ export class VisualizationComponent {
         }, this.animationSpeedMs));
       }
       else if(check === "Swap") {
-        const [barIndexOne,barValueOne,barIndexTwo,barValueTwo] = animations[i].slice(1);
+        const [barIndexOne, barValueOne, barIndexTwo, barValueTwo, unsortedArray] = animations[i].slice(1);
         const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
         const barTwoStyle = <HTMLElement>arrayBars[barIndexTwo];
         await new Promise<void>((resolve,reject)  => setTimeout(() => {
@@ -234,6 +236,10 @@ export class VisualizationComponent {
           if (this.currentArray.length < 34) {
             barOneStyle.children[0].innerHTML = barValueOne;
             barTwoStyle.children[0].innerHTML = barValueTwo;
+
+            for(let i = 0; i < arrayBars.length; i++) {
+              arrayBars[i].children[0].innerHTML = unsortedArray[i];
+            }
           }
           barOneStyle.style.height = `${barValueOne * this.sizeMultiplier}px`;
           barTwoStyle.style.height = `${barValueTwo * this.sizeMultiplier}px`;
@@ -249,8 +255,7 @@ export class VisualizationComponent {
 
   selectAlgorithm(algorithm: string): void {
     this.selectedAlgorithm.next(algorithm);
-    this.currentArray = generateArray(this.currentArray.length);
-    this.setSizeMultiplier(Math.max(...this.currentArray));
+    this.setSizeMultiplier(Math.max(...this.originalArray));
     this.resetCanvas();
   }
 
@@ -276,6 +281,15 @@ export class VisualizationComponent {
     for (let i = 0 ; i < highestTimeoutId ; i++) {
         clearTimeout(i); 
     }
+    let arrayBars = document.getElementsByClassName('array-bar');
+    for (let i = 0; i < arrayBars.length; i++) {
+      const barStyle = <HTMLElement>arrayBars[i];
+      barStyle.style.height = `${this.currentArray[i] * this.sizeMultiplier}px`;
+      barStyle.style.backgroundColor = this.PRIMARY_COLOR;
+      if (this.currentArray.length < 34) {
+        barStyle.children[0].innerHTML = `${this.currentArray[i]}`;
+      }
+    }
     this.currentStep = 0;
     this.numberOfSwaps = 0;
     this.allNumberOfSwaps = 0;
@@ -283,10 +297,35 @@ export class VisualizationComponent {
   }
 
   onArraySort(): void {
-    this.onArrayChange(this.originalArray);
     this.allNumberOfSwaps = 0;
     this.numberOfSwaps = 0;
     this.currentStep = 0;
+    switch (this.selectedAlgorithm.getValue()) {
+      case 'Bubble Sort':
+        this.bubbleSort();
+        break; 
+      case 'Quick Sort':
+        this.quickSort();
+        break;
+      case 'Merge Sort':
+        this.mergeSort();
+        break;
+      case 'Selection Sort':
+        this.selectionSort();
+        break;
+      default:
+        this.bubbleSort();
+        break;
+    }
+
+  }
+
+  onRepeat(): void {
+    this.allNumberOfSwaps = 0;
+    this.numberOfSwaps = 0;
+    this.currentStep = 0;
+    this.onArrayChange(this.currentArray);
+    console.log(this.originalArray)
     switch (this.selectedAlgorithm.getValue()) {
       case 'Bubble Sort':
         this.bubbleSort();
@@ -338,7 +377,6 @@ export class VisualizationComponent {
     if (this.currentStep === 0) {
       return;
     }
-    this.currentStep -= 2;
     this.isStepBack = true;
    switch (this.selectedAlgorithm.getValue()) {
     case 'Bubble Sort':
@@ -363,7 +401,7 @@ export class VisualizationComponent {
     if (this.currentStep === this.numberOfSwaps) {
       return;
     }
-    this.currentStep += 1;
+    //this.currentStep += 1;
 
    switch (this.selectedAlgorithm.getValue()) {
     case 'Bubble Sort':

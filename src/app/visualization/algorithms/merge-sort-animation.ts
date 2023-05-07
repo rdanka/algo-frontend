@@ -20,26 +20,36 @@ function doMerge(mainArray: number[], startIdx:number, middleIdx:number, endIdx:
     let i = startIdx;
     let j = middleIdx + 1;
     while (i <= middleIdx && j <= endIdx) {
-      animations.push([i, j]);
-      animations.push([i, j]);
+      animations.push([i, j]); // HighlightOn
+      //animations.push(["HighLightOn",i,j]);
+      animations.push([i, j]); //Hioghlight off
+      //animations.push(["HighLightOff",i,j]);
       if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-        animations.push([k, auxiliaryArray[i]]);
+              // We overwrite the value at index k in the original array with the
+      // value at index i in the auxiliary array.
+        //animations.push(["Swap",])
+        animations.push([k, auxiliaryArray[i],i]); // Swap
+        //animations.push(["Swap",k,auxiliaryArray[i]]);
         mainArray[k++] = auxiliaryArray[i++];
       } else {
-        animations.push([k, auxiliaryArray[j]]);
+        animations.push([k, auxiliaryArray[j], j]); 
         mainArray[k++] = auxiliaryArray[j++];
       }
     }
     while (i <= middleIdx) {
       animations.push([i, i]);
+      //animations.push(["HighLightOn",i,i]);
+      //animations.push(["HighLightOff",i,i])
       animations.push([i, i]);
-      animations.push([k, auxiliaryArray[i]]);
+      animations.push([k, auxiliaryArray[i], i]);
       mainArray[k++] = auxiliaryArray[i++];
     }
     while (j <= endIdx) {
       animations.push([j, j]);
       animations.push([j, j]);
-      animations.push([k, auxiliaryArray[j]]);
+      //animations.push(["HighLightOn",j,j]); 
+      //animations.push(["HighLightOff",j,j])
+      animations.push([k, auxiliaryArray[j], j]);
       mainArray[k++] = auxiliaryArray[j++];
     }
   }

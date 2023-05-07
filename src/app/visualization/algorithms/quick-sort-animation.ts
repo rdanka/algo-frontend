@@ -42,7 +42,7 @@ function partition(low:number,high: number,unsortedArray: number[]) {
 
   swap(low,j,unsortedArray);
   animations.push(["HighLightOn",low,j]);
-  animations.push(["Swap",low,unsortedArray[low],j,unsortedArray[j]]);
+  animations.push(["Swap",low,unsortedArray[low],j,unsortedArray[j], unsortedArray.slice()]);
   animations.push(["HighLightOff",low,j]);
   animations.push(["PivotOff",low]);
   return j;
