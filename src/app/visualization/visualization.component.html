@@ -26,9 +26,10 @@
         (onSort)="onArraySort()"
         (onArrayChange)="onArrayChange($event)"
         (onOpenQuiz)="dialog.showModal()"
+        dialog.
     ></app-algorithm-details>
 
-    <dialog #dialog>
+    <dialog  #dialog>
        <app-algorithm-quiz
        [selectedAlgorithm]="selectedAlgorithm"
        (onModalClose)="dialog.close()" 
