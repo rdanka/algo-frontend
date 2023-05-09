@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { animateBubbleSort } from './algorithms/bubble-sort-animation';
 import { generateArray } from '../common/utils/generateArray';
@@ -21,7 +21,7 @@ export class VisualizationComponent {
   animationSpeedMs = 50;
   numberOfSwaps = 0;
   selectedAlgorithm = new BehaviorSubject('Bubble Sort');
-  isPaused = false;
+  isPaused = true;
   currentStep = 0;
   sizeMultiplier = 5;
   allNumberOfSwaps: number;
@@ -39,38 +39,11 @@ export class VisualizationComponent {
       for(let i = this.currentStep; i < animations.length; i++) {
         const [action,barOneIndex,barTwoIndex,barOneValue,barTwoValue] = animations[i];
         if((action === "HighLightOn" && !this.isStepBack) || (action === "HighLightOff" && this.isStepBack)) {
-          let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
-          let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
-          
-            await new Promise<void>( (resolve,reject)  => setTimeout(() => {
-              barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-              barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
-              resolve();
-            }, this.animationSpeedMs));
-            
+          await this.highLightOn(barOneIndex, barTwoIndex);            
         } else if((action === "HighLightOff" && !this.isStepBack) || (action === "HighLightOn" && this.isStepBack)) {
-          let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
-          let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
-          
-            await new Promise<void>( resolve => setTimeout(() => {
-            barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
-            barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
-            resolve();
-          }, this.animationSpeedMs));
+            await this.highLightOff(barOneIndex, barTwoIndex);
         } else if(action === "Swap") {
-          let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
-          let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
-
-          await new Promise<void>( resolve => setTimeout(() => {
-            barOneStyle.style.height = `${(this.isStepBack ? barTwoValue : barOneValue) * this.sizeMultiplier}px`;
-            barTwoStyle.style.height = `${(this.isStepBack ? barOneValue: barTwoValue) * this.sizeMultiplier}px`;
-            if (this.currentArray.length < 34) {
-              barOneStyle.children[0].innerHTML = this.isStepBack ? barTwoValue : barOneValue;
-              barTwoStyle.children[0].innerHTML = this.isStepBack ? barOneValue : barTwoValue;
-            }
-            this.numberOfSwaps = this.isStepBack ? this.numberOfSwaps - 1 : this.numberOfSwaps + 1;
-            resolve();
-          }, this.animationSpeedMs));
+          await this.swap(barOneIndex, barTwoIndex, barOneValue, barTwoValue);
         } else if (action === "Correct") {
           let barOneStyle = <HTMLElement>arrayBars[barOneIndex];
           let barTwoStyle = <HTMLElement>arrayBars[barTwoIndex];
@@ -88,8 +61,6 @@ export class VisualizationComponent {
         if(this.isPaused) {
           break; 
         }
-          
-        
       }
     } 
 
@@ -99,8 +70,9 @@ export class VisualizationComponent {
       
       this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "Swap").length;
       for (let i = this.currentStep; i < animations.length; i++) {
-
-
+        if  (this.isStepBack) {
+          this.currentStep = this.currentStep - 1;
+        }
         const element  =  animations[i];
         const [action, index1, index2] = element;
     
@@ -134,11 +106,13 @@ export class VisualizationComponent {
     
           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
           barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
-          this.numberOfSwaps++;
+          if (this.isStepBack) this.numberOfSwaps--;
+          else this.numberOfSwaps++;
         }
         if(this.isPaused) {
           break; 
         }
+        if (this.isStepBack) this.isStepBack = false;
         this.currentStep++;
       }
     }
@@ -146,8 +120,8 @@ export class VisualizationComponent {
   async mergeSort(){
     const arrayBars = document.getElementsByClassName('array-bar');
     let animations = getMergeSortAnimations(this.currentArray);
-    this.allNumberOfSwaps = animations.length / 3;
     console.log(animations)
+    this.allNumberOfSwaps = animations.length / 3;
     for (let i = this.currentStep; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
@@ -193,12 +167,39 @@ export class VisualizationComponent {
     }, this.animationSpeedMs));
    }
 
+   async highLightOn(barOneIdx: number, barTwoIdx: number) {
+      const arrayBars = document.getElementsByClassName('array-bar');
+      const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+      const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
+      
+      await new Promise<void>( (resolve,reject)  => setTimeout(() => {
+        barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
+        barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
+        resolve();
+      }, this.animationSpeedMs));
+    }
+
+    async swap(barOneIdx: number, barTwoIdx: number, barOneValue: number, barTwoValue: number) {
+      const arrayBars = document.getElementsByClassName('array-bar');
+      let barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+      let barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
+      await new Promise<void>( resolve => setTimeout(() => {
+        barOneStyle.style.height = `${(this.isStepBack ? barTwoValue : barOneValue) * this.sizeMultiplier}px`;
+        barTwoStyle.style.height = `${(this.isStepBack ? barOneValue: barTwoValue) * this.sizeMultiplier}px`;
+        if (this.currentArray.length < 34) {
+          barOneStyle.children[0].innerHTML = `${this.isStepBack ? barTwoValue : barOneValue}`;
+          barTwoStyle.children[0].innerHTML = `${this.isStepBack ? barOneValue : barTwoValue}`;
+        }
+        this.numberOfSwaps = this.isStepBack ? this.numberOfSwaps - 1 : this.numberOfSwaps + 1;
+        resolve();
+      }, this.animationSpeedMs));
+    }
+
    async quickSort() {
     let arrayBars = document.getElementsByClassName('array-bar');
     let animations = getAnimationsForQuickSort(this.currentArray);
-    console.log(animations);  
     this.allNumberOfSwaps = animations.filter((array: any) => array[0] === "Swap").length;
-    for(let i = this.currentStep; i< animations.length; i++) {
+    for(let i = this.currentStep; i < animations.length; i++) {
       let check = animations[i][0];
       if(check === "PivotOn") {
         let pivotBar = animations[i][1];
@@ -209,49 +210,30 @@ export class VisualizationComponent {
          resolve();
         }, this.animationSpeedMs));
         
-      }
-      else if(check === "HighLightOn") {
+      } else if((check === "HighLightOn" && !this.isStepBack) || (check === "HighLightOff" && this.isStepBack)) {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
-        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
-
-        await new Promise<void>( (resolve,reject)  => setTimeout(() => {
-          barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-          barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
-          resolve();
-        }, this.animationSpeedMs));
-      }
-      else if(check === "HighLightOff") {
+        await this.highLightOn(barOneIdx,barTwoIdx);
+      } else if((check === "HighLightOff" && !this.isStepBack) || (check === "HighLightOn" && this.isStepBack)) {
         const [barOneIdx,barTwoIdx] = animations[i].slice(1);
         await this.highLightOff(barOneIdx,barTwoIdx)
-      }
-      else if(check === "PivotOff") {
+      } else if(check === "PivotOff") {
         let pivotBar = animations[i][1];
         const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
         await new Promise<void>( (resolve,reject)  => setTimeout(() => {
          barPivotStyle.style.backgroundColor = this.PRIMARY_COLOR;
          resolve();
         }, this.animationSpeedMs));
-      }
-      else if(check === "Swap") {
+      } else if(check === "Swap") {
         const [barIndexOne, barValueOne, barIndexTwo, barValueTwo] = animations[i].slice(1);
-        const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
-        const barTwoStyle = <HTMLElement>arrayBars[barIndexTwo];
-        await new Promise<void>((resolve,reject)  => setTimeout(() => {
-          this.numberOfSwaps++;
-          if (this.currentArray.length < 34) {
-            barOneStyle.children[0].innerHTML = barValueOne;
-            barTwoStyle.children[0].innerHTML = barValueTwo;
-          }
-          barOneStyle.style.height = `${barValueOne * this.sizeMultiplier}px`;
-          barTwoStyle.style.height = `${barValueTwo * this.sizeMultiplier}px`;
-        resolve();
-        }, this.animationSpeedMs));
+        await this.swap(barIndexOne, barIndexTwo, barValueOne, barValueTwo);
       }
+
+      this.currentStep = this.isStepBack ? this.currentStep - 1 : this.currentStep + 1;
+      
+      this.isStepBack = false;
       if(this.isPaused) {
         break; 
       }
-      this.currentStep++;
     }
    }
 
@@ -287,7 +269,7 @@ export class VisualizationComponent {
     this.currentStep = 0;
     this.numberOfSwaps = 0;
     this.allNumberOfSwaps = 0;
-    this.isPaused = false;
+    this.isPaused = true;
   }
   
   resetArray(): void {
@@ -306,23 +288,8 @@ export class VisualizationComponent {
     this.allNumberOfSwaps = 0;
     this.numberOfSwaps = 0;
     this.currentStep = 0;
-    switch (this.selectedAlgorithm.getValue()) {
-      case 'Bubble Sort':
-        this.bubbleSort();
-        break; 
-      case 'Quick Sort':
-        this.quickSort();
-        break;
-      case 'Merge Sort':
-        this.mergeSort();
-        break;
-      case 'Selection Sort':
-        this.selectionSort();
-        break;
-      default:
-        this.bubbleSort();
-        break;
-    }
+    this.isPaused = !this.isPaused;
+    this.startAlgorithm();
 
   }
 
@@ -331,46 +298,14 @@ export class VisualizationComponent {
     this.numberOfSwaps = 0;
     this.currentStep = 0;
     this.resetArray();
-    switch (this.selectedAlgorithm.getValue()) {
-      case 'Bubble Sort':
-        this.bubbleSort();
-        break; 
-      case 'Quick Sort':
-        this.quickSort();
-        break;
-      case 'Merge Sort':
-        this.mergeSort();
-        break;
-      case 'Selection Sort':
-        this.selectionSort();
-        break;
-      default:
-        this.bubbleSort();
-        break;
-    }
+    this.startAlgorithm();
 
   }
 
   onPause(): void {
     this.isPaused = !this.isPaused;
     if (!this.isPaused) {
-      switch (this.selectedAlgorithm.getValue()) {
-        case 'Bubble Sort':
-          this.bubbleSort();
-          break; 
-        case 'Quick Sort':
-          this.quickSort();
-          break;
-        case 'Merge Sort':
-          this.mergeSort();
-          break;
-        case 'Selection Sort':
-          this.selectionSort();
-          break;
-        default:
-          this.bubbleSort();
-          break;
-      }
+      this.startAlgorithm();
     }
   }
 
@@ -383,48 +318,36 @@ export class VisualizationComponent {
       return;
     }
     this.isStepBack = true;
-   switch (this.selectedAlgorithm.getValue()) {
-    case 'Bubble Sort':
-      this.bubbleSort();
-      break;
-    case 'Quick Sort':
-      this.quickSort();
-      break;
-    case 'Merge Sort':
-      this.mergeSort();
-      break;
-    case 'Selection Sort':
-      this.selectionSort();
-      break;
-    default:
-      this.bubbleSort();
-      break;
-   }
+    this.startAlgorithm();
   }
 
   stepForward(): void {
     if (this.currentStep === this.numberOfSwaps) {
       return;
     }
-    //this.currentStep += 1;
+    if (this.selectedAlgorithm.getValue() !== 'Bubble Sort') this.currentStep++;
 
-   switch (this.selectedAlgorithm.getValue()) {
-    case 'Bubble Sort':
-      this.bubbleSort();
-      break;
-    case 'Quick Sort':
-      this.quickSort();
-      break;
-    case 'Merge Sort':
-      this.mergeSort();
-      break;
-    case 'Selection Sort':
-      this.selectionSort();
-      break;
-    default:
-      this.bubbleSort();
-      break;
-   }
+   this.startAlgorithm();
+  }
+
+  startAlgorithm(): void {
+    switch (this.selectedAlgorithm.getValue()) {
+      case 'Bubble Sort':
+        this.bubbleSort();
+        break;
+      case 'Quick Sort':
+        this.quickSort();
+        break;
+      case 'Merge Sort':
+        this.mergeSort();
+        break;
+      case 'Selection Sort':
+        this.selectionSort();
+        break;
+      default:
+        this.bubbleSort();
+        break;
+     }
   }
 
 }

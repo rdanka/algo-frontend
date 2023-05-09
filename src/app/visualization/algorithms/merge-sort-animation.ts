@@ -8,11 +8,11 @@ export function getMergeSortAnimations(array: any) {
 }
   
 function mergeSortHelper(mainArray: number[], startIdx: number, endIdx: number, auxiliaryArray: number[], animations: any ) {
-    if (startIdx === endIdx) return;
-    const middleIdx = Math.floor((startIdx + endIdx) / 2);
-    mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, animations);
-    mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, animations);
-    doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations);
+  if (startIdx === endIdx) return;
+  const middleIdx = Math.floor((startIdx + endIdx) / 2);
+  mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, animations);
+  mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, animations);
+  doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations);
 }
   
 function doMerge(mainArray: number[], startIdx:number, middleIdx:number, endIdx:number, auxiliaryArray:number[], animations:any) {
@@ -46,3 +46,5 @@ function doMerge(mainArray: number[], startIdx:number, middleIdx:number, endIdx:
       mainArray[k++] = auxiliaryArray[j++];
     }
   }
+
+  

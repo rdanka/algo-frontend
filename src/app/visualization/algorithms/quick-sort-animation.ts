@@ -2,7 +2,6 @@ let animations: any = [];
 
 export function getAnimationsForQuickSort(array: number[]) {
   let newArray = array.slice();
-  console.log(newArray);
    quickSort(0,newArray.length -1,newArray);
    let tempArray = animations.slice();
    animations = [];
@@ -38,7 +37,6 @@ function partition(low:number,high: number,unsortedArray: number[]) {
       animations.push(["HighLightOff",i,i]);
       animations.push(["PivotOn",low]);
 
-      console.log("i: ",i,'low: ',low);
     } while(unsortedArray[i] < pivot);
 
     // Move the right index to the left at least once and while the element at
@@ -54,7 +52,6 @@ function partition(low:number,high: number,unsortedArray: number[]) {
       swap(i,j,unsortedArray);
       animations.push(["HighLightOn",i,j]);
       animations.push(["Swap",i,unsortedArray[i],j,unsortedArray[j]]);
-      console.log("i: ",i,'array: ',unsortedArray.slice());
       animations.push(["HighLightOff",i,j]);
     }
   }
