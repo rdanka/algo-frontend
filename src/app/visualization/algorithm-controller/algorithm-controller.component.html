@@ -1,10 +1,10 @@
 <div class="controller-container">
     <div class="stop">
-        <div class="play" *ngIf="isPaused || currentNumberOfSwaps === 0">
-            <i class="fa-solid fa-play play-button" (click)="togglePause()"></i>
-            <span > Play</span>
+        <div class="play" *ngIf="isPaused || !hasStarted && currentNumberOfSwaps !== totalSwaps">
+            <i class="fa-solid fa-play play-button" (click)="togglePlay()"></i>
+            <span> Play</span>
         </div>
-        <div class="pause" *ngIf="!isPaused && !(currentNumberOfSwaps === totalSwaps)">
+        <div class="pause" *ngIf="!isPaused && !(currentNumberOfSwaps === totalSwaps) && hasStarted">
             <i class="fa-solid fa-pause play-button" (click)="togglePause()"></i>
             <span>Pause</span>
         </div>
@@ -22,6 +22,6 @@
         <i class="fa-solid fa-step-forward" (click)="stepForward()" *ngIf="isPaused"></i>
     </div>
     <div class="speed">
-        <input type="range" min="0" max="2000" step="10" #speed class="slider" (input)="onSpeedChange(speed.value)"> <span>{{ speed.value }}ms</span>
+        <input type="range" min="0" max="1000" step="10" #speed class="slider" (input)="onSpeedChange(speed.value)"> <span>{{ speed.value }}ms</span>
     </div>
 </div>

@@ -40,7 +40,6 @@ export class UploadComponent {
   }
 
   submit(): void {
-    console.log(this.classForm.value)
     if (this.classForm.controls.className.invalid) {
       this.toastService.error('Class name is required!', 'Error!');
       return;

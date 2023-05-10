@@ -6,7 +6,9 @@
         <app-algorithm-controller
             [currentNumberOfSwaps]="numberOfSwaps"
             [totalSwaps]="allNumberOfSwaps"
-            (onPause)="onPause()"
+            [hasStarted]="hasStarted"
+            [isPaused]="isPaused"
+            (onPause)="onPause($event)"
             (onRepeat)="onRepeat()"
             (onSpeed)="onSpeedChange($event)"
             (onStepBack)="stepBack()"

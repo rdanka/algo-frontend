@@ -25,7 +25,9 @@ export class AlgorithmDetailsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.onArrayChange.emit(generateArray(50));
+    const arr = generateArray(50);
+    this.onArrayChange.emit(arr);
+    if (this.arrayInput) this.arrayInput.nativeElement.value = arr;
   }
 
   arraySizeChange(size: unknown): void {

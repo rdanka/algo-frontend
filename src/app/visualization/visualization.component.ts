@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { animateBubbleSort } from './algorithms/bubble-sort-animation';
 import { generateArray } from '../common/utils/generateArray';
@@ -24,12 +24,13 @@ export class VisualizationComponent {
   isPaused = true;
   currentStep = 0;
   sizeMultiplier = 5;
-  allNumberOfSwaps: number;
+  allNumberOfSwaps: number = 0;
   originalArray: number[];
   isStepBack = false;
   isStepForward = false;
+  hasStarted = false;
 
-  constructor() {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
     async bubbleSort() {
       let animations = animateBubbleSort(this.currentArray);
@@ -120,7 +121,6 @@ export class VisualizationComponent {
   async mergeSort(){
     const arrayBars = document.getElementsByClassName('array-bar');
     let animations = getMergeSortAnimations(this.currentArray);
-    console.log(animations)
     this.allNumberOfSwaps = animations.length / 3;
     for (let i = this.currentStep; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
@@ -137,7 +137,7 @@ export class VisualizationComponent {
       } else {
         await new Promise<void>((resolve,reject)  => setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
-          const [barTwoIdx, secondValue] = animations[i+3];
+          const [barTwoIdx, secondValue] = animations[i+3]; //todo fix this 
           const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
           const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
           barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
@@ -253,6 +253,7 @@ export class VisualizationComponent {
   onArrayChange(array: number[]): void {
     this.originalArray = array;
     this.currentArray = array;
+    this.cdr.detectChanges();
     this.setSizeMultiplier(Math.max(...this.currentArray));
     this.resetCanvas();
   }
@@ -262,6 +263,7 @@ export class VisualizationComponent {
   }
 
   resetCanvas(): void {
+    this.hasStarted = false;
     let highestTimeoutId = setTimeout(";");
     for (let i = 0 ; i < highestTimeoutId ; i++) {
         clearTimeout(i); 
@@ -302,8 +304,8 @@ export class VisualizationComponent {
 
   }
 
-  onPause(): void {
-    this.isPaused = !this.isPaused;
+  onPause(isPaused: boolean): void {
+    this.isPaused = isPaused;
     if (!this.isPaused) {
       this.startAlgorithm();
     }

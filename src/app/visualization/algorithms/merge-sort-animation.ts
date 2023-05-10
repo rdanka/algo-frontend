@@ -21,11 +21,10 @@ function doMerge(mainArray: number[], startIdx:number, middleIdx:number, endIdx:
     let j = middleIdx + 1;
     while (i <= middleIdx && j <= endIdx) {
       animations.push([i, j]); // HighlightOn
-      animations.push([i, j]); //Hioghlight off
+      animations.push([i, j]); // Highlight off
       if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-              // We overwrite the value at index k in the original array with the
-      // value at index i in the auxiliary array.
-
+        // We overwrite the value at index k in the original array with the
+        // value at index i in the auxiliary array.
         animations.push([k, auxiliaryArray[i]]);
         mainArray[k++] = auxiliaryArray[i++];
       } else {

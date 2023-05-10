@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { ResultService } from 'src/app/common/services/result.service';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-algorithm-controller',
   templateUrl: './algorithm-controller.component.html',
   styleUrls: ['./algorithm-controller.component.scss']
 })
-export class AlgorithmControllerComponent {
-  isPaused = true;
-  
+export class AlgorithmControllerComponent  {
+  @Input() isPaused = true;
+  @Input() hasStarted = false;
   @Input() totalSwaps: number = 0;
   @Input() currentNumberOfSwaps: number = 0;
   @Output() onPause = new EventEmitter<boolean>();
@@ -17,9 +16,16 @@ export class AlgorithmControllerComponent {
   @Output() onStepForward = new EventEmitter<void>();
   @Output() onSpeed = new EventEmitter<number>();
 
-  
+  constructor() { }
+
   togglePause(): void {
     this.isPaused = !this.isPaused;
+    this.onPause.emit(this.isPaused);
+  }
+
+  togglePlay(): void {
+    this.hasStarted = true;
+    this.isPaused = false;
     this.onPause.emit(this.isPaused);
   }
 
