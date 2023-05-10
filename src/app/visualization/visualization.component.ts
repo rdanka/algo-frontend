@@ -137,12 +137,9 @@ export class VisualizationComponent {
       } else {
         await new Promise<void>((resolve,reject)  => setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
-          const [barTwoIdx, secondValue] = animations[i+3]; //todo fix this 
           const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-          const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
           barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
           if (this.currentArray.length < 34) {
-            barTwoStyle.children[0].innerHTML = secondValue;
             barOneStyle.children[0].innerHTML = newHeight;
           }
           this.numberOfSwaps++;
