@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../enviroment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, finalize, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
 import { User } from '../models/user.model';
 import { RegisterResponse } from '../models/register-response.model';
 import { AuthenticateResponse } from '../models/authenticate-response.model';
@@ -25,13 +25,13 @@ export class AuthService {
 
   public authenticate(user: User): Observable<AuthenticateResponse> {
     return this.http.post<AuthenticateResponse>(`${environment.baseUrl}/users/login`, user).pipe(
-      finalize(() => this.loggedIn.next(true))
+      tap(() => this.loggedIn.next(true))
     );
   }
 
   public studentLogin(neptunId: string) {
     return this.http.post<any>(`${environment.baseUrl}/students/login`, {neptunId}).pipe(
-      finalize(() => this.loggedIn.next(true))
+      tap(() => this.loggedIn.next(true))
     );
   }
 

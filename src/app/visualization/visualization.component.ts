@@ -123,6 +123,9 @@ export class VisualizationComponent {
     let animations = getMergeSortAnimations(this.currentArray);
     this.allNumberOfSwaps = animations.length / 3;
     for (let i = this.currentStep; i < animations.length; i++) {
+      if  (this.isStepBack) {
+        this.currentStep = this.currentStep - 1;
+      }
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animations[i];
@@ -142,13 +145,15 @@ export class VisualizationComponent {
           if (this.currentArray.length < 34) {
             barOneStyle.children[0].innerHTML = newHeight;
           }
-          this.numberOfSwaps++;
+          if (this.isStepBack) this.numberOfSwaps--;
+          else this.numberOfSwaps++;
           resolve();
         }, this.animationSpeedMs));
       }
       if(this.isPaused) {
         break; 
       }
+      if (this.isStepBack) this.isStepBack = false;
       this.currentStep++;
     }
    }
