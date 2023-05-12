@@ -53,6 +53,6 @@ export class AlgorithmDetailsComponent implements OnInit {
 
   checkArray(input: string): void {
     const array: number[] = Array.from(input.split(',').map(Number));
-    this.isCorrect = !array.some(isNaN) && array.length > 0 && !array.some((num) => num > 100) && !array.some((num) => num < 1);
+    this.isCorrect = !array.some(isNaN) && array.length > 0 && !array.some((num) => num > 100) && !array.some((num) => num < 1) && array.length <= 100;
   }
 }

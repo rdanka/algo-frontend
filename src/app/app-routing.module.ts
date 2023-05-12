@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VisualizationComponent } from './visualization/visualization.component';
 import { UploadComponent } from './dashboard/upload/upload.component';
 import { TeacherGuard } from './common/guards/teacher.guard';
+import { QuizComponent } from './dashboard/quiz/quiz.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [TeacherGuard]},
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'upload', component: UploadComponent, canActivate: [TeacherGuard] },
+  { path: 'edit-quiz', component: QuizComponent, canActivate: [TeacherGuard] },
   { path: '', redirectTo:'/visualization', pathMatch: 'full' },
   { path: '**', component: VisualizationComponent }
 ];

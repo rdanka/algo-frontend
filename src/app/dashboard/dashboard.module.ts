@@ -10,6 +10,7 @@ import { ClassBubbleComponent } from './results/components/class-bubble/class-bu
 import { ClassQuickComponent } from './results/components/class-quick/class-quick.component';
 import { ClassSelectionComponent } from './results/components/class-selection/class-selection.component';
 import { ClassMergeComponent } from './results/components/class-merge/class-merge.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ClassMergeComponent } from './results/components/class-merge/class-merg
     ClassBubbleComponent,
     ClassQuickComponent,
     ClassSelectionComponent,
-    ClassMergeComponent
+    ClassMergeComponent,
+    QuizComponent
   ],
   imports: [
     CommonModule,

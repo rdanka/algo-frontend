@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../enviroment';
 import { Quiz } from '../models/quiz.model';
 import { Observable } from 'rxjs';
+import { Question } from '../models/question.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class QuizService {
     return this.http.get<Quiz>(`${environment.baseUrl}/quiz/getQuizByAlgorithm?algorithm=${algorithm}`);
   }
 
-  addQuestion(params: Quiz): Observable<void> {
+  addQuestion(params: Question): Observable<void> {
     return this.http.post<void>(`${environment.baseUrl}/quiz/addQuestion`, params);
   }
 }

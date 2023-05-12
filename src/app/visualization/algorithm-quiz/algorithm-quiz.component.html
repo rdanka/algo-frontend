@@ -17,7 +17,7 @@
         </label>
     </div>
     <div class="buttons">
-        <button *ngIf="currentIndex != 4" (click)="checkAnswer()">Next</button>
-        <button *ngIf="currentIndex === 4" (click)="close()">Finish</button>
+        <button *ngIf="currentIndex != questions.length-1" (click)="checkAnswer()">Next</button>
+        <button *ngIf="currentIndex === questions.length-1" (click)="close()">Finish</button>
     </div>
 </div> 

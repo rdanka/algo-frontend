@@ -1,0 +1,101 @@
+.upload-container {
+    width: 80%;
+    margin: auto;
+    margin-top: 3rem;
+
+    h1, p {
+        margin: .5rem 0;
+    }
+
+}
+
+/* Style for the input field */
+input[type=text] {
+    width: 350px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #555;
+    font-family: inherit;
+}
+
+/* Style for the form */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    div:not(.form-answers){
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.form-answers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Style for the select element */
+select {
+    width: 350px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #555;
+    font-family: inherit;
+    margin-top: 10px;
+}
+
+/* Style for the button */
+button {
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:disabled {
+        background-color: #ccc;
+        color: #555;
+        cursor: not-allowed;
+    }
+}
+
+/* Style for the question input */
+.question-input {
+    margin-top: 10px;
+}
+
+/* Style for the answer input */
+.answer-input {
+    margin-top: 5px;
+}
+
+/* Style for the correct answer indicator */
+.correct-answer {
+    color: green;
+}
+
+/* Style for the wrong answer indicator */
+.wrong-answer {
+    color: red;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-size: .8rem;
+}

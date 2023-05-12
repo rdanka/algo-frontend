@@ -1,0 +1,51 @@
+<div class="upload-container">
+    <h1>Add Quiz questions</h1>
+    <h4>Add a new question to the selected algorithm.</h4>
+    <form [formGroup]="form" class="form-container" (ngSubmit)="submitQuestion()">
+        <div>
+          <label for="algorithm">Algorithm</label>
+          <select id="algorithm" formControlName="algorithm">
+            <option *ngFor="let algo of algorithms" [value]="algo.value">{{ algo.name }}</option>
+          </select>
+        </div>
+        <div >
+          <label for="input">Example array (optional)</label>
+          <input id="input" type="text" formControlName="array" #arr (input)="checkArray(arr.value)">
+          <span *ngIf="form.controls['array'].invalid" class="error">Please follow this format: 1,2,3,4..., and do not include numbers bigger than 100 as it can affect time to solve the problem</span>
+        </div>
+        <div>
+          <label for="question">Question</label>
+          <input id="question" type="text" formControlName="question" class="question-input">
+        </div>
+        <div class="form-answers">
+            <div>
+                <label for="answer1">Answer 1</label>
+                <input id="answer1" type="text" formControlName="answer1" class="answer-input">
+              </div>
+              <div>
+                <label for="answer2">Answer 2</label>
+                <input id="answer2" type="text" formControlName="answer2" class="answer-input">
+              </div>
+              <div>
+                <label for="answer3">Answer 3</label>
+                <input id="answer3" type="text" formControlName="answer3" class="answer-input">
+              </div>
+              <div>
+                <label for="answer4">Answer 4</label>
+                <input id="answer4" type="text" formControlName="answer4" class="answer-input">
+              </div>
+        </div>
+        <div>
+          <label for="correctAnswer">Correct Answer</label>
+          <div>
+            <select id="correctAnswer" formControlName="correctAnswer">
+                <option value="" disabled selected>Select an answer</option>
+              <option *ngFor="let option of answerOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+          </div>
+                   
+        </div>
+        <button type="submit" [disabled]="form.invalid">Submit</button>
+      </form>
+      
+</div>
