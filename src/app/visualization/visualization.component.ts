@@ -125,7 +125,7 @@ export class VisualizationComponent {
     for (let i = this.currentStep; i < animations.length; i++) {
       if  (this.isStepBack) {
         this.currentStep = this.currentStep - 1;
-      }
+      } 
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animations[i];

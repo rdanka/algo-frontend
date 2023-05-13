@@ -46,7 +46,7 @@ describe('QuizService', () => {
 
   describe('addQuestion', () => {
     it('should send a POST request to the API', () => {
-      const question: Quiz = {
+      const question: any = {
         algorithm: 'test',
         questions: [{
           algorithm: 'test',

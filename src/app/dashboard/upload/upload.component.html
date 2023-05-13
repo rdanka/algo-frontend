@@ -8,8 +8,32 @@
     <label for="list" class="drop-container" >
         <span class="drop-title">Drop files here</span>
         or
-        <input id="list" type="file"  (change)="onChange($event)" required>
+        <input id="list" type="file" accept=".txt,.csv" (change)="onChange($event)" required>
     </label>
-    <button class="upload-button">Create Class</button>
+    <button class="upload-button" [disabled]="classForm.invalid">Create Class</button>
     </form>
+
+   <!-- a table thats visible once a file is uploaded and can remove or add to studentlist  -->
+   <div class="table-container" *ngIf="studentList.length > 0 ">
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of studentList; let i = index">
+          <td>{{ student }}</td>
+          <td><button class="remove-button" (click)="removeStudent(i)"><i class="fa fa-trash"></i></button></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+            <td><input type="text"  #newStudent placeholder="Add a new student..."></td>
+            <td><button class="add-button" (click)="addStudent(newStudent.value)" ><i class="fa fa-plus"></i></button></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>
