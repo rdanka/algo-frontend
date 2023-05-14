@@ -6,7 +6,7 @@
             <span class="error" *ngIf="!isCorrect">Please use numbers between 1 and 100.</span>
             Array size: 
             <span>
-                <input type="range" name="arraySize" id="arraySize" min="2" max="100" #arraySize (input)="arraySizeChange(arraySize.value)"><span> {{arraySize.value}}</span>
+                <input type="range" name="arraySize" id="arraySize" min="2" max="100" #arraySize (change)="arraySizeChange(arraySize.value)"><span> {{arraySize.value}}</span>
             </span>
         </div>
         <div class="buttons">

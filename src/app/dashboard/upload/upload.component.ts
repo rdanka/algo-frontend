@@ -13,6 +13,7 @@ export class UploadComponent {
 
   selectedFile: File | null;
   studentList: string[] = [];
+  allValid = true;
 
   classForm = new FormGroup({
     className: new FormControl('', [Validators.required]),
@@ -25,6 +26,9 @@ export class UploadComponent {
   public onChange(event: Event): void {
       const target = event.target as HTMLInputElement;
       const file: File = (target.files as FileList)[0];
+      if (!file) {
+        return;
+      }
       if (file.type !== "text/csv" && file.type !== "text/plain") {
         this.toastService.error('Invalid file type. Please select a CSV or TXT file.', 'Error!');
         return;
@@ -44,8 +48,8 @@ export class UploadComponent {
           next: (res) => {
             this.toastService.error(`Student ${student} is already registered!`, 'Error!');
             this.classForm.controls.studentList.setErrors({invalid: true});
+            this.allValid = false;
           }, error: (err) => {
-            
           }
         });
       }
@@ -72,10 +76,10 @@ export class UploadComponent {
     this.studentService.isStudentRegistered(studentId).subscribe({
       next: (res) => {
         this.toastService.error(`Student ${studentId} is already registered!`, 'Error!');
-        this.classForm.controls.studentList.setErrors({invalid: true});
       }, error: (err) => {
         this.studentList.push(studentId);
         this.classForm.controls.studentList.setValue(this.studentList);
+        this.setValidity();
       }
     });
   }
@@ -83,6 +87,63 @@ export class UploadComponent {
   removeStudent(index: number): void {
     this.studentList.splice(index, 1);
     this.classForm.controls.studentList.setValue(this.studentList);
+    this.checkStudentList();
+  }
+  
+  checkStudentList(): void {
+    this.allValid = true;
+    if (this.classForm.controls.studentList.invalid) {
+      this.toastService.error('Student list is required!', 'Error!');
+      return;
+    }
+    if (this.hasDuplicates(this.studentList)) {
+      this.toastService.error('Student list contains duplicates!', 'Error!');
+      this.classForm.controls.studentList.setErrors({invalid: true});
+    }
+
+    let checked: boolean[] = [...Array(this.studentList.length).fill(false)];
+    for (let i = 0; i < this.studentList.length; i++) {
+      let student = this.studentList[i];
+      let invalid = false;
+      this.studentService.isStudentRegistered(student).subscribe({
+        next: (res) => {
+          invalid = true;
+          checked[i] = true;
+          this.updateValidity(invalid, student);
+          if(checked.every(Boolean)){
+            this.setValidity();
+          }
+        }, error: (err) => {
+          invalid = false;
+          checked[i] = true;
+          this.updateValidity(invalid, student);
+          if(checked.every(Boolean)){
+            this.setValidity();
+          }
+        }
+      });
+    }
+    
+  }
+
+  updateValidity(invalid: boolean, student:string): void {
+    this.allValid = this.allValid && !invalid;
+    if (invalid) {
+      
+      this.classForm.controls.studentList.setErrors({invalid: true});
+    } else {
+      this.classForm.controls.studentList.setValue(this.studentList);
+    }
+   
+  }
+
+  setValidity(): void {
+    if(this.allValid){
+      this.classForm.controls.studentList.setErrors(null);
+    }else{
+      this.classForm.controls.studentList.setErrors({invalid: true});
+    }
+
   }
 
   hasDuplicates(array: string[]) {
@@ -98,7 +159,6 @@ export class UploadComponent {
       this.toastService.error('Student list is required!', 'Error!');
       return;
     }
-    console.log(this.classForm.value);
      this.classService.createClass(this.classForm.value).subscribe({
       next: () => this.toastService.success('Class was added!', 'Succes!'),
       error: (err) => this.toastService.error(`${err.error}`, 'Error!'),

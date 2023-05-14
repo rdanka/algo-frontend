@@ -55,12 +55,13 @@ export class QuizComponent {
   submitQuestion(): void {
     const options = [this.form.value.answer1, this.form.value.answer2, this.form.value.answer3, this.form.value.answer4];
     const answer = this.form.value.correctAnswer;
+    console.log(this.form.value.array);
     this.quizService.addQuestion({
       question: this.form.value.question,
       answer,
       options,
       algorithm: this.form.value.algorithm,
-      array: Array.from(this.form.value.array.split(',').map(Number))
+      array: this.form.value.array.length !== 0 ? Array.from(this.form.value.array.split(',').map(Number)) : []
     }).subscribe({
       next: () => this.toastr.success('Question was added!', 'Success!'),
       error: (err) => this.toastr.error(`${err.error}`, 'Error!'),

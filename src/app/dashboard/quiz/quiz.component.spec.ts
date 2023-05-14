@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuizComponent } from './quiz.component';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('QuizComponent', () => {
   let component: QuizComponent;
@@ -8,7 +11,13 @@ describe('QuizComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ QuizComponent ]
+      imports: [
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        ReactiveFormsModule
+      ],
+      declarations: [ QuizComponent ],
+      providers: [ToastrService]
     })
     .compileComponents();
 

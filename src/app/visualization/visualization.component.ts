@@ -118,45 +118,53 @@ export class VisualizationComponent {
       }
     }
     
-  async mergeSort(){
-    const arrayBars = document.getElementsByClassName('array-bar');
-    let animations = getMergeSortAnimations(this.currentArray);
-    this.allNumberOfSwaps = animations.length / 3;
-    for (let i = this.currentStep; i < animations.length; i++) {
-      if  (this.isStepBack) {
-        this.currentStep = this.currentStep - 1;
-      } 
-      const isColorChange = i % 3 !== 2;
-      if (isColorChange) {
-        const [barOneIdx, barTwoIdx] = animations[i];
-        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
-        const color = i % 3 === 0 ? this.SECONDARY_COLOR : this.PRIMARY_COLOR;
-        await new Promise<void>((resolve,reject)  => setTimeout(() => {
-          barOneStyle.style.backgroundColor = color;
-          barTwoStyle.style.backgroundColor = color;
-          resolve();
-        }, this.animationSpeedMs));
-      } else {
-        await new Promise<void>((resolve,reject)  => setTimeout(() => {
-          const [barOneIdx, newHeight] = animations[i];
+    async mergeSort(){
+      const arrayBars = document.getElementsByClassName('array-bar');
+      let animations = getMergeSortAnimations(this.currentArray);
+      this.allNumberOfSwaps = animations.length / 3;
+      for (let i = this.currentStep; i < animations.length; i++) {
+        if  (this.isStepBack) {
+          this.currentStep = this.currentStep - 1;
+        } 
+        const isHighLight = i % 3 !== 2;
+        if (isHighLight) {
+          const [barOneIdx, barTwoIdx] = animations[i];
           const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-          barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
-          if (this.currentArray.length < 34) {
-            barOneStyle.children[0].innerHTML = newHeight;
+          const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
+          let barColor: string;
+          if(!this.isStepBack){
+            barColor = i % 3 === 0 ? this.SECONDARY_COLOR : this.PRIMARY_COLOR;
+          }else{
+            barColor = i % 3 === 0 ? this.PRIMARY_COLOR : this.SECONDARY_COLOR;
           }
-          if (this.isStepBack) this.numberOfSwaps--;
-          else this.numberOfSwaps++;
-          resolve();
-        }, this.animationSpeedMs));
+          //const barColor = i % 3 === 0 ? this.SECONDARY_COLOR : this.PRIMARY_COLOR;
+          await new Promise<void>((resolve,reject)  => setTimeout(() => {
+            barOneStyle.style.backgroundColor = barColor;
+            barTwoStyle.style.backgroundColor = barColor;
+            resolve();
+          }, this.animationSpeedMs));
+        } else {
+          await new Promise<void>((resolve,reject)  => setTimeout(() => {
+            const [barOneIdx, newHeight] = animations[i];
+            const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+            barOneStyle.style.height = `${newHeight * this.sizeMultiplier}px`;
+            if (this.currentArray.length < 34) {
+              barOneStyle.children[0].innerHTML = newHeight;
+            }
+            if (this.isStepBack) this.numberOfSwaps--;
+            else this.numberOfSwaps++;
+            resolve();
+          }, this.animationSpeedMs));
+        }
+        if(this.isPaused) {
+          break; 
+        }
+        if (this.isStepBack) this.isStepBack = false;
+        if  (!this.isStepBack) {
+          this.currentStep++;
+        } 
       }
-      if(this.isPaused) {
-        break; 
-      }
-      if (this.isStepBack) this.isStepBack = false;
-      this.currentStep++;
-    }
-   }
+     }
 
    async highLightOff(barOneIdx: number, barTwoIdx: number) {
     const arrayBars = document.getElementsByClassName('array-bar');
