@@ -1,7 +1,7 @@
 <div class="quiz-container">
     <div class="image" *ngIf="questions[currentIndex]?.array!.length > 1">
             <div class="array-container">
-                <div class="array-quiz-bar" *ngFor="let i of questions[currentIndex].array;"  [ngStyle]="{'height': i*20+'px','background-color':'blue', 'width': 1000/questions[currentIndex].array.length+'px'}">
+                <div class="array-quiz-bar" *ngFor="let i of questions[currentIndex].array;"  [ngStyle]="{'height': i*10+'px','background-color':'blue', 'width': 1000/questions[currentIndex].array.length+'px'}">
                     <span *ngIf="questions[currentIndex]?.array!.length < 34" class="number">{{i}}</span>
                 </div>
             </div>

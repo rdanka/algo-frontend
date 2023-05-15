@@ -23,6 +23,7 @@ export class AlgorithmQuizComponent implements OnInit {
   }];
   currentIndex = 0;
   currentPoints = 0;
+  CANVAS_SIZE = 250;
 
   constructor(private readonly quizService: QuizService, private readonly resultService: ResultService, private readonly toastrService: ToastrService) { }
 
@@ -34,6 +35,8 @@ export class AlgorithmQuizComponent implements OnInit {
       });
     });
   }
+
+
 
   checkAnswer(): void {
     const answer = document.querySelector('input[class="answerInput"]:checked') as HTMLInputElement;
